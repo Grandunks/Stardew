@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stardew Profit - Granja de Esteban</title>
+    <title>Stardew Profit - Esteban</title>
     <style>
         :root { --farm-green: #2e7d32; --accent-gold: #ffd700; }
         body { font-family: 'Segoe UI', sans-serif; background-color: #e8f5e9; padding: 20px; color: #333; }
@@ -18,10 +18,8 @@
         th { background-color: var(--farm-green); color: white; padding: 15px; text-align: left; }
         td { padding: 12px; border-bottom: 1px solid #ddd; vertical-align: middle; }
         tr:hover { background-color: #f1f8e9; }
-        
         .crop-info { display: flex; align-items: center; gap: 15px; }
-        .crop-icon { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
-        
+        .crop-icon { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; border-radius: 4px; }
         .gpd-badge { background: #e0e0e0; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #333; }
         .profit-badge { background: #c8e6c9; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #1b5e20; }
         .gold-badge { background: var(--accent-gold); padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #5d4037; }
@@ -97,31 +95,31 @@
             { "nombre": "Chirivia", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 20, "precio_venta": 35, "descripcion": "Pierre" },
             { "nombre": "Col rizada", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 70, "precio_venta": 110, "descripcion": "Pierre" },
             { "nombre": "Coliflor", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 80, "precio_venta": 175, "descripcion": "Pierre" },
-            { "nombre": "Fresa (Día 1)", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "dia_siembra": 1, "descripcion": "Semilla guardada anterior" },
-            { "nombre": "Fresa (Día 13)", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "dia_siembra": 13, "descripcion": "Festival del Huevo" },
+            { "nombre": "Fresa (Día 1)", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "dia_siembra": 1, "descripcion": "Año anterior" },
+            { "nombre": "Fresa (Día 13)", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "dia_siembra": 13, "descripcion": "Festival Huevo" },
             { "nombre": "Judia verde", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 40, "descripcion": "Pierre" },
             { "nombre": "Patata", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre" },
             { "nombre": "Ruibarbo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 100, "precio_venta": 220, "descripcion": "Oasis" },
             { "nombre": "Tulipan", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 20, "precio_venta": 30, "descripcion": "Pierre" },
-            { "nombre": "Zanahoria", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 3, "rebrote": false, "precio_semilla": 0, "precio_venta": 35, "descripcion": "Costo 0 - Cavando" },
+            { "nombre": "Zanahoria", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 3, "rebrote": false, "precio_semilla": 0, "precio_venta": 35, "descripcion": "Cavando" },
             { "nombre": "Amapola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 100, "precio_venta": 140, "descripcion": "Pierre" },
             { "nombre": "Arandano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": true, "dias_rebrote": 4, "multiplicador": 3, "precio_semilla": 80, "precio_venta": 50, "descripcion": "Pierre" },
-            { "nombre": "Calabaza amarilla", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 0, "precio_venta": 45, "descripcion": "Semillas encontradas" },
+            { "nombre": "Calabaza amarilla", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 0, "precio_venta": 45, "descripcion": "Encontrada" },
             { "nombre": "Carambola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 400, "precio_venta": 750, "descripcion": "Oasis" },
             { "nombre": "Chile", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 5, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 40, "precio_venta": 40, "descripcion": "Pierre" },
             { "nombre": "Girasol", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 125, "precio_venta": 80, "descripcion": "Pierre" },
             { "nombre": "Lentejuela", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 50, "precio_venta": 90, "descripcion": "Pierre" },
-            { "nombre": "Lombarda", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 9, "rebrote": false, "precio_semilla": 100, "precio_venta": 260, "descripcion": "Pierre (Año 2)" },
+            { "nombre": "Lombarda", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 9, "rebrote": false, "precio_semilla": 100, "precio_venta": 260, "descripcion": "Año 2" },
             { "nombre": "Lupulo", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "rebrote": true, "dias_rebrote": 1, "precio_semilla": 60, "precio_venta": 25, "descripcion": "Pierre" },
             { "nombre": "Maiz", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 14, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 150, "precio_venta": 50, "descripcion": "Pierre" },
             { "nombre": "Melon", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 80, "precio_venta": 250, "descripcion": "Pierre" },
             { "nombre": "Rabano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 40, "precio_venta": 90, "descripcion": "Pierre" },
             { "nombre": "Tomate", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 50, "precio_venta": 60, "descripcion": "Pierre" },
             { "nombre": "Trigo", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 10, "precio_venta": 25, "descripcion": "Pierre" },
-            { "nombre": "Alcachofa", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 30, "precio_venta": 160, "descripcion": "Pierre (Año 2)" },
+            { "nombre": "Alcachofa", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 30, "precio_venta": 160, "descripcion": "Año 2" },
             { "nombre": "Amaranto", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 70, "precio_venta": 150, "descripcion": "Pierre" },
             { "nombre": "Berenjena", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 5, "rebrote": true, "dias_rebrote": 5, "precio_semilla": 20, "precio_venta": 60, "descripcion": "Pierre" },
-            { "nombre": "Brocoli", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 0, "precio_venta": 70, "descripcion": "Encontradas" },
+            { "nombre": "Brocoli", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 0, "precio_venta": 70, "descripcion": "Encontrado" },
             { "nombre": "Calabaza", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 100, "precio_venta": 320, "descripcion": "Pierre" },
             { "nombre": "Col china", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre" },
             { "nombre": "Grosella", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "rebrote": true, "dias_rebrote": 5, "multiplicador": 2, "precio_semilla": 240, "precio_venta": 75, "descripcion": "Pierre" },
@@ -130,60 +128,17 @@
             { "nombre": "Rosa hada", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 200, "precio_venta": 290, "descripcion": "Pierre" },
             { "nombre": "Uva", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 80, "descripcion": "Pierre" },
             { "nombre": "Grano de cafe", "temporada": ["Primavera","Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 2, "precio_semilla": 2500, "precio_venta": 15, "multiplicador": 4, "descripcion": "Carro" },
-            { "nombre": "Taro", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": false, "precio_semilla": 0, "precio_venta": 100, "descripcion": "Isla Jengibre" },
-            { "nombre": "Piña", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 14, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 300, "descripcion": "Isla Jengibre" },
+            { "nombre": "Taro", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": false, "precio_semilla": 0, "precio_venta": 100, "descripcion": "Isla" },
+            { "nombre": "Piña", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 14, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 300, "descripcion": "Isla" },
             { "nombre": "Higo chumbo", "temporada": ["Invernadero"], "dias_crecimiento": 12, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 150, "precio_venta": 75, "descripcion": "Oasis" },
             { "nombre": "Fruta milenaria", "temporada": ["Primavera","Verano","Otoño","Invernadero"], "dias_crecimiento": 28, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 550, "descripcion": "Especial" }
         ]
     };
 
     function getIconUrl(nombre) {
-        let cleanName = nombre.split(' (')[0].replace(/ /g, '_');
-        if (cleanName === "Allium_azul") cleanName = "Blue_Jazz";
-        if (cleanName === "Chirivia") cleanName = "Parsnip";
-        if (cleanName === "Col_rizada") cleanName = "Kale";
-        if (cleanName === "Coliflor") cleanName = "Cauliflower";
-        if (cleanName === "Fresa") cleanName = "Strawberry";
-        if (cleanName === "Judia_verde") cleanName = "Green_Bean";
-        if (cleanName === "Patata") cleanName = "Potato";
-        if (cleanName === "Ruibarbo") cleanName = "Rhubarb";
-        if (cleanName === "Tulipan") cleanName = "Tulip";
-        if (cleanName === "Zanahoria") cleanName = "Carrot";
-        if (cleanName === "Amapola") cleanName = "Poppy";
-        if (cleanName === "Arandano") cleanName = "Blueberry";
-        if (cleanName === "Calabaza_amarilla") cleanName = "Summer_Squash";
-        if (cleanName === "Carambola") cleanName = "Starfruit";
-        if (cleanName === "Chile") cleanName = "Hot_Pepper";
-        if (cleanName === "Girasol") cleanName = "Sunflower";
-        if (cleanName === "Lentejuela") cleanName = "Summer_Spangle";
-        if (cleanName === "Lombarda") cleanName = "Red_Cabbage";
-        if (cleanName === "Lupulo") cleanName = "Hops";
-        if (cleanName === "Maiz") cleanName = "Corn";
-        if (cleanName === "Melon") cleanName = "Melon";
-        if (cleanName === "Rabano") cleanName = "Radish";
-        if (cleanName === "Tomate") cleanName = "Tomato";
-        if (cleanName === "Trigo") cleanName = "Wheat";
-        if (cleanName === "Alcachofa") cleanName = "Artichoke";
-        if (cleanName === "Amaranto") cleanName = "Amaranth";
-        if (cleanName === "Berenjena") cleanName = "Eggplant";
-        if (cleanName === "Brocoli") cleanName = "Broccoli";
-        if (cleanName === "Calabaza") cleanName = "Pumpkin";
-        if (cleanName === "Col_china") cleanName = "Bok_Choy";
-        if (cleanName === "Grosella") cleanName = "Cranberries";
-        if (cleanName === "Ñame") cleanName = "Yam";
-        if (cleanName === "Remolacha") cleanName = "Beet";
-        if (cleanName === "Rosa_hada") cleanName = "Fairy_Rose";
-        if (cleanName === "Uva") cleanName = "Grape";
-        if (cleanName === "Grano_de_cafe") cleanName = "Coffee_Bean";
-        if (cleanName === "Taro") cleanName = "Taro_Root";
-        if (cleanName === "Piña") cleanName = "Pineapple";
-        if (cleanName === "Higo_chumbo") cleanName = "Cactus_Fruit";
-        if (cleanName === "Fruta_milenaria") cleanName = "Ancient_Fruit";
-        if (cleanName === "Ajo") cleanName = "Garlic";
-        if (cleanName === "Arroz_sin_moler") cleanName = "Unmilled_Rice";
-        if (cleanName === "Melon_polvo") cleanName = "Powdermelon";
-        
-        return `https://stardewvalleywiki.com/mediawiki/images/thumb/a/a0/${cleanName}.png/32px-${cleanName}.png`;
+        let cleanName = nombre.split(' (')[0].toLowerCase().replace(/ /g, '_');
+        const baseRepoUrl = "https://raw.githubusercontent.com/Grandunks/Stardew/aac0ed4f4393ec1964c0e93febd285ea3fee19dd/Imagenes/";
+        return `${baseRepoUrl}${cleanName}.png`;
     }
 
     function calcularStats(c, bonoAcelerador, tieneAgricultor, tieneLabrador, cantidad) {
@@ -243,7 +198,7 @@
                 <tr>
                     <td>
                         <div class="crop-info">
-                            <img class="crop-icon" src="${getIconUrl(c.nombre)}" alt="${c.nombre}" onerror="this.style.display='none'">
+                            <img class="crop-icon" src="${getIconUrl(c.nombre)}" alt="${c.nombre}" onerror="this.src='https://via.placeholder.com/32?text=?'">
                             <strong>${c.nombre}</strong>
                         </div>
                     </td>
