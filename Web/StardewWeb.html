@@ -9,17 +9,22 @@
         body { font-family: 'Segoe UI', sans-serif; background-color: #e8f5e9; padding: 20px; color: #333; }
         .container { max-width: 1400px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         h1 { color: var(--farm-green); text-align: center; border-bottom: 3px solid var(--farm-green); padding-bottom: 10px; }
+        
         .controles { margin: 25px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-weight: bold; font-size: 0.9em; color: var(--farm-green); }
-        select, input[type="number"] { padding: 8px; border-radius: 5px; border: 2px solid var(--farm-green); outline: none; }
-        input[type="number"] { width: 80px; }
+        
+        input[type="text"], input[type="number"], select { padding: 8px; border-radius: 5px; border: 2px solid var(--farm-green); outline: none; }
+        #buscarNombre { width: 250px; border-color: #1976d2; }
+        
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { background-color: var(--farm-green); color: white; padding: 15px; text-align: left; }
         td { padding: 12px; border-bottom: 1px solid #ddd; vertical-align: middle; }
         tr:hover { background-color: #f1f8e9; }
+        
         .crop-info { display: flex; align-items: center; gap: 15px; }
-        .crop-icon { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; border-radius: 4px; }
+        .crop-icon { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
+        
         .gpd-badge { background: #e0e0e0; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #333; }
         .profit-badge { background: #c8e6c9; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #1b5e20; }
         .gold-badge { background: var(--accent-gold); padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #5d4037; }
@@ -34,6 +39,11 @@
     <h1>Planificador Maestro de Cosechas</h1>
     
     <div class="controles">
+        <div class="control-group">
+            <label>Buscar Cultivo:</label>
+            <input type="text" id="buscarNombre" placeholder="Ej: Fresa..." oninput="actualizarTabla()">
+        </div>
+
         <div class="control-group">
             <label>Ubicación / Temporada:</label>
             <select id="selectTemporada" onchange="actualizarTabla()">
@@ -136,9 +146,13 @@
     };
 
     function getIconUrl(nombre) {
-        let cleanName = nombre.split(' (')[0].toLowerCase().replace(/ /g, '_');
-        const baseRepoUrl = "https://github.com/Grandunks/Stardew/blob/main/Imagenes/";
-        return `${baseRepoUrl}${cleanName}.png`;
+        // Obtenemos solo el nombre (sin los paréntesis del Día)
+        let baseName = nombre.split(' (')[0];
+        
+        // encodeURIComponent convierte espacios en %20 para que GitHub lo entienda
+        let fileName = encodeURIComponent(baseName);
+        
+        return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${fileName}.png`;
     }
 
     function calcularStats(c, bonoAcelerador, tieneAgricultor, tieneLabrador, cantidad) {
@@ -174,6 +188,7 @@
     }
 
     function actualizarTabla() {
+        const busqueda = document.getElementById('buscarNombre').value.toLowerCase();
         const filtro = document.getElementById('selectTemporada').value;
         const acelerador = document.getElementById('selectAcelerador').value;
         const agricultor = document.getElementById('checkAgricultor').checked;
@@ -181,9 +196,15 @@
         const cantidad = parseInt(document.getElementById('inputCantidad').value) || 1;
         const cuerpo = document.getElementById('cuerpoTabla');
         
+        // Primero filtramos por temporada
         let filtrados = data.cultivos.filter(c => 
             c.temporada.some(t => t.toLowerCase().includes(filtro.toLowerCase().split(' ')[0]))
         );
+
+        // Luego filtramos por nombre si hay algo escrito en la barra de búsqueda
+        if(busqueda) {
+            filtrados = filtrados.filter(c => c.nombre.toLowerCase().includes(busqueda));
+        }
 
         let calculados = filtrados.map(c => {
             const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad);
@@ -198,7 +219,7 @@
                 <tr>
                     <td>
                         <div class="crop-info">
-                            <img class="crop-icon" src="${getIconUrl(c.nombre)}" alt="${c.nombre}" onerror="this.src='https://via.placeholder.com/32?text=?'">
+                            <img class="crop-icon" src="${getIconUrl(c.nombre)}" alt="${c.nombre}" onerror="this.style.visibility='hidden'">
                             <strong>${c.nombre}</strong>
                         </div>
                     </td>
