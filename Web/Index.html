@@ -146,10 +146,7 @@
     };
 
     function getIconUrl(nombre) {
-        // Obtenemos solo el nombre (sin los paréntesis del Día)
         let baseName = nombre.split(' (')[0];
-        
-        // encodeURIComponent convierte espacios en %20 para que GitHub lo entienda
         let fileName = encodeURIComponent(baseName);
         
         return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${fileName}.png`;
@@ -196,12 +193,10 @@
         const cantidad = parseInt(document.getElementById('inputCantidad').value) || 1;
         const cuerpo = document.getElementById('cuerpoTabla');
         
-        // Primero filtramos por temporada
         let filtrados = data.cultivos.filter(c => 
             c.temporada.some(t => t.toLowerCase().includes(filtro.toLowerCase().split(' ')[0]))
         );
 
-        // Luego filtramos por nombre si hay algo escrito en la barra de búsqueda
         if(busqueda) {
             filtrados = filtrados.filter(c => c.nombre.toLowerCase().includes(busqueda));
         }
