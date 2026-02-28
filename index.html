@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sTEArdew Valley Planificador</title>
     <style>
-        :root { --farm-green: #2e7d32; --accent-gold: #ffd700; --special-purple: #801eaa; --collect-brown: #5d4037; --pierre-blue: #1976d2; }
+        :root { --farm-green: #3a2e7d; --accent-gold: #ffd700; --special-purple: #801eaa; --collect-brown: #5d4037; --pierre-blue: #1976d2; }
         
         body { 
             font-family: 'Segoe UI', sans-serif; 
@@ -21,7 +21,7 @@
         .container { 
             max-width: 1400px; 
             margin: auto; 
-            background: rgba(255, 255, 255, 0.92); 
+            background: rgba(31, 29, 29, 0); 
             padding: 30px; 
             border-radius: 15px; 
             box-shadow: 0 8px 32px rgba(0,0,0,0.2);
@@ -30,7 +30,7 @@
 
         h1 { color: var(--farm-green); text-align: center; border-bottom: 3px solid var(--farm-green); padding-bottom: 10px; text-shadow: 1px 1px 2px white; }
         
-        .controles { margin: 25px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; background: rgba(249, 249, 249, 0.8); padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        .controles { margin: 25px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; background: rgba(240, 237, 237, 0.63); padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-weight: bold; font-size: 0.9em; color: var(--farm-green); }
         
@@ -45,10 +45,10 @@
         .btn-filtro.active[data-cat="Especial"] { background: var(--special-purple); color: white; border-color: var(--special-purple); }
         .btn-filtro.active[data-cat="Recogidas"] { background: var(--collect-brown); color: white; border-color: var(--collect-brown); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 10px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(240, 237, 237, 0.63); border-radius: 10px; overflow: hidden; }
         th { background-color: var(--farm-green); color: white; padding: 15px; text-align: left; }
         td { padding: 12px; border-bottom: 1px solid #ddd; vertical-align: middle; }
-        tr:hover { background-color: #f1f8e9; }
+        tr:hover { background-color: #4e446b4d; }
         
         .crop-info { display: flex; align-items: center; gap: 15px; }
         .crop-icon { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
@@ -58,7 +58,7 @@
         .gold-badge { background: var(--accent-gold); padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #5d4037; }
         .inversion-badge { background: #ffcdd2; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #b71c1c; }
         .cosecha-count { font-weight: bold; color: #1565c0; text-align: center; }
-        .desc { font-size: 0.85em; color: #666; font-style: italic; }
+        .desc { font-size: 0.85em; color: #000000; font-style: italic; }
     </style>
 </head>
 <body>
