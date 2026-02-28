@@ -5,28 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sTEArdew Valley Planificador</title>
     <style>
-        :root { --farm-green: #2e7d32; --accent-gold: #ffd700; --special-purple: #7b1fa2; --collect-brown: #5d4037; --pierre-blue: #1976d2; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: #e8f5e9; padding: 20px; color: #333; }
-        .container { max-width: 1400px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-        h1 { color: var(--farm-green); text-align: center; border-bottom: 3px solid var(--farm-green); padding-bottom: 10px; }
+        :root { --farm-green: #2e7d32; --accent-gold: #ffd700; --special-purple: #801eaa; --collect-brown: #5d4037; --pierre-blue: #1976d2; }
         
-        .controles { margin: 25px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-image: url('https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px; 
+            color: #333; 
+        }
+
+        .container { 
+            max-width: 1400px; 
+            margin: auto; 
+            background: rgba(255, 255, 255, 0.92); 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            backdrop-filter: blur(4px);
+        }
+
+        h1 { color: var(--farm-green); text-align: center; border-bottom: 3px solid var(--farm-green); padding-bottom: 10px; text-shadow: 1px 1px 2px white; }
+        
+        .controles { margin: 25px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; background: rgba(249, 249, 249, 0.8); padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-weight: bold; font-size: 0.9em; color: var(--farm-green); }
         
-        input[type="text"], input[type="number"], select { padding: 8px; border-radius: 5px; border: 2px solid var(--farm-green); outline: none; }
+        input[type="text"], input[type="number"], select { padding: 8px; border-radius: 5px; border: 2px solid var(--farm-green); outline: none; background: white; }
         #buscarNombre { width: 200px; border-color: #1976d2; }
         
         .filtros-obtencion { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; }
         .btn-filtro { padding: 10px 18px; border-radius: 20px; border: 2px solid #ccc; background: white; cursor: pointer; font-weight: bold; transition: 0.3s; }
         
-        /* Colores dinámicos para selección múltiple */
         .btn-filtro.active[data-cat="Todos"] { background: var(--farm-green); color: white; border-color: var(--farm-green); }
         .btn-filtro.active[data-cat="Compradas"] { background: var(--pierre-blue); color: white; border-color: var(--pierre-blue); }
         .btn-filtro.active[data-cat="Especial"] { background: var(--special-purple); color: white; border-color: var(--special-purple); }
         .btn-filtro.active[data-cat="Recogidas"] { background: var(--collect-brown); color: white; border-color: var(--collect-brown); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 10px; overflow: hidden; }
         th { background-color: var(--farm-green); color: white; padding: 15px; text-align: left; }
         td { padding: 12px; border-bottom: 1px solid #ddd; vertical-align: middle; }
         tr:hover { background-color: #f1f8e9; }
