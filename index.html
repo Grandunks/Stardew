@@ -134,7 +134,6 @@
 <script>
     const data = {
         "cultivos": [
-            // PRIMAVERA
             { "nombre": "Ajo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 40, "precio_venta": 60, "descripcion": "Pierre (Año 2)", "tipo": "Compradas" },
             { "nombre": "Allium azul", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 30, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Arroz sin moler", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 40, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
@@ -148,8 +147,6 @@
             { "nombre": "Ruibarbo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 100, "precio_venta": 220, "descripcion": "Oasis", "tipo": "Compradas" },
             { "nombre": "Tulipan", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 20, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Zanahoria", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 3, "rebrote": false, "precio_semilla": 0, "precio_venta": 35, "descripcion": "Cavando", "tipo": "Recogidas" },
-            
-            // VERANO
             { "nombre": "Amapola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 100, "precio_venta": 140, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Arandano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": true, "dias_rebrote": 4, "multiplicador": 3, "precio_semilla": 80, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Calabaza amarilla", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 0, "precio_venta": 45, "descripcion": "Encontrada", "tipo": "Recogidas" },
@@ -164,8 +161,6 @@
             { "nombre": "Rabano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 40, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Tomate", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 50, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Trigo", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 10, "precio_venta": 25, "descripcion": "Pierre", "tipo": "Compradas" },
-
-            // OTOÑO
             { "nombre": "Alcachofa", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 30, "precio_venta": 160, "descripcion": "Año 2", "tipo": "Compradas" },
             { "nombre": "Amaranto", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 70, "precio_venta": 150, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Berenjena", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 5, "rebrote": true, "dias_rebrote": 5, "precio_semilla": 20, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
@@ -177,8 +172,6 @@
             { "nombre": "Remolacha", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 20, "precio_venta": 100, "descripcion": "Oasis", "tipo": "Compradas" },
             { "nombre": "Rosa hada", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 200, "precio_venta": 290, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Uva", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-
-            // ESPECIALES
             { "nombre": "Grano de cafe", "temporada": ["Primavera","Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 2, "precio_semilla": 2500, "precio_venta": 15, "multiplicador": 4, "descripcion": "Carro", "tipo": "Compradas" },
             { "nombre": "Fruto de taro", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": false, "precio_semilla": 0, "precio_venta": 100, "descripcion": "Isla", "tipo": "Especial" },
             { "nombre": "Piña", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 14, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 300, "descripcion": "Isla", "tipo": "Especial" },
@@ -197,7 +190,6 @@
             btns.forEach(b => b.classList.remove('active'));
             document.querySelector('[data-cat="Todos"]').classList.add('active');
         } else {
-            // Quitar "Todos" si seleccionamos una categoría específica
             categoriasActivas = categoriasActivas.filter(c => c !== "Todos");
             document.querySelector('[data-cat="Todos"]').classList.remove('active');
 
@@ -208,8 +200,6 @@
                 categoriasActivas.push(cat);
                 document.querySelector(`[data-cat="${cat}"]`).classList.add('active');
             }
-
-            // Si no queda nada activo, volver a Todos
             if (categoriasActivas.length === 0) {
                 categoriasActivas = ["Todos"];
                 document.querySelector('[data-cat="Todos"]').classList.add('active');
@@ -269,7 +259,6 @@
             c.temporada.some(t => t.toLowerCase().includes(filtroTemporada.toLowerCase().split(' ')[0]))
         );
 
-        // Lógica de Unión de Categorías
         if (!categoriasActivas.includes("Todos")) {
             filtrados = filtrados.filter(c => categoriasActivas.includes(c.tipo));
         }
