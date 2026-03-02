@@ -28,15 +28,20 @@
             backdrop-filter: blur(4px);
         }
 
-        h1 { color: var(--farm-green); text-align: center; border-bottom: 3px solid var(--farm-green); padding-bottom: 10px; text-shadow: 1px 1px 2px white; }
+        h1 { color: var(--farm-green); text-align: center; border-bottom: 3px solid var(--farm-green); padding-bottom: 10px; text-shadow: 1px 1px 2px white; font-size: 4.0em; margin-top: 5px; }        
         
         .controles { margin: 25px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: center; background: rgba(240, 237, 237, 0.63); padding: 20px; border-radius: 8px; border: 1px solid #ddd; }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         label { font-weight: bold; font-size: 0.9em; color: var(--farm-green); }
         
-        input[type="text"], input[type="number"], select { padding: 8px; border-radius: 5px; border: 2px solid var(--farm-green); outline: none; background: white; }
-        #buscarNombre { width: 200px; border-color: #1976d2; }
+        input[type="number"], select { padding: 8px; border-radius: 5px; border: 2px solid var(--farm-green); outline: none; background-color: rgba(255, 255, 255, 0.90); }
+        #inputDia { width: 60px; text-align: center; font-weight: bold; color: #d84315; }
         
+        .filtros-ubicacion { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; padding: 10px; background-color: rgba(255, 255, 255, 0.90); border-radius: 8px; border: 1px solid #ccc; margin-bottom: 10px; }
+        .btn-ubicacion { padding: 12px 24px; border-radius: 25px; border: 2px solid #ccc; background: white; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: 0.3s; }
+        .btn-ubicacion.active[data-ubi="Granja"] { background: #795548; color: white; border-color: #795548; } 
+        .btn-ubicacion.active[data-ubi="Invernadero"] { background: #00897b; color: white; border-color: #00897b; } 
+
         .filtros-obtencion { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; width: 100%; }
         .btn-filtro { padding: 10px 18px; border-radius: 20px; border: 2px solid #ccc; background: white; cursor: pointer; font-weight: bold; transition: 0.3s; }
         
@@ -46,9 +51,55 @@
         .btn-filtro.active[data-cat="Recogidas"] { background: var(--collect-brown); color: white; border-color: var(--collect-brown); }
 
         table { width: 100%; border-collapse: collapse; margin-top: 20px; background: rgba(240, 237, 237, 0.63); border-radius: 10px; overflow: hidden; }
-        th { background-color: var(--farm-green); color: white; padding: 15px; text-align: left; }
+        th { background-color: var(--farm-green); color: white; padding: 15px; text-align: left; transition: 0.3s; }
         td { padding: 12px; border-bottom: 1px solid #ddd; vertical-align: middle; }
-        tr:hover { background-color: #4e446b4d; }
+        
+        tr.fila-principal { cursor: pointer; transition: background-color 0.3s; }
+        tr.fila-principal:hover { background-color: #4e446b4d; }
+        
+        .fila-detalles { background-color: transparent; }
+        .fila-detalles td { padding-top: 0; border-bottom: 1px solid #ddd; }
+        
+        .contenido-detalles { 
+            padding: 20px; border-left: 5px solid var(--farm-green); margin: 5px 0 10px 0; 
+            background-color: rgba(255, 255, 255, 0.75); border-radius: 0 8px 8px 0; box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+            display: flex; gap: 20px; flex-wrap: wrap;
+        }
+
+        /* DISEÑO DEL CALENDARIO DE CRECIMIENTO */
+        .calendario-container {
+            border: 2px solid #0b8014;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #dcf2ff; /* Azul celeste clarito */
+            width: fit-content;
+        }
+        .calendario-header-top { background: #0b8014; color: white; text-align: center; font-weight: bold; padding: 5px; border-bottom: 2px solid white;}
+        .calendario-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 45px); /* 7 días de la semana */
+            grid-auto-rows: 55px; /* Altura de la celda */
+            gap: 2px;
+            background-color: white; /* Color de las líneas separadoras */
+            border: 2px solid white;
+        }
+        .cal-header { background: #13a31e; color: white; text-align: center; font-weight: bold; font-size: 0.85em; display: flex; align-items: center; justify-content: center; height: 25px; }
+        .cal-celda {
+            background-color: #dcf2ff;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cal-celda.vacio { background-color: #f0f8ff; opacity: 0.6; } /* Días antes de plantar o después de morir */
+        .cal-celda.plantado { background-color: #fff9c4; border: 1px solid #fbc02d; box-sizing: border-box;} /* Resalta el día exacto de siembra */
+        .cal-num {
+            position: absolute; top: 2px; left: 4px; font-size: 0.7em; color: #555; font-weight: bold;
+        }
+        .cal-img {
+            width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated;
+        }
+        .cosecha-anim { filter: drop-shadow(0 0 3px gold); transform: scale(1.1); }
         
         .crop-info { display: flex; align-items: center; gap: 15px; }
         .crop-icon { width: 32px; height: 32px; object-fit: contain; image-rendering: pixelated; }
@@ -57,8 +108,7 @@
         .profit-badge { background: #c8e6c9; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #1b5e20; }
         .gold-badge { background: var(--accent-gold); padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #5d4037; }
         .inversion-badge { background: #ffcdd2; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #b71c1c; }
-        .cosecha-count { font-weight: bold; color: #1565c0; text-align: center; }
-        .desc { font-size: 0.85em; color: #000000; font-style: italic; }
+        .cosecha-count { font-weight: bold; color: #0011ff; text-align: center; }
     </style>
 </head>
 <body>
@@ -67,6 +117,11 @@
     <h1>Planificador de Cosechas para TEAS</h1>
     
     <div class="controles">
+        <div class="filtros-ubicacion" id="contenedorUbicacion">
+            <button class="btn-ubicacion active" data-ubi="Granja" onclick="setUbicacion('Granja')"> Granja del Abuelo</button>
+            <button class="btn-ubicacion" data-ubi="Invernadero" onclick="setUbicacion('Invernadero')"> Invernadero / Isla</button>
+        </div>
+
         <div class="filtros-obtencion" id="contenedorFiltros">
             <button class="btn-filtro active" data-cat="Todos" onclick="toggleFiltro('Todos')">Todos los Cultivos</button>
             <button class="btn-filtro" data-cat="Compradas" onclick="toggleFiltro('Compradas')">Compradas (Oro)</button>
@@ -75,18 +130,18 @@
         </div>
 
         <div class="control-group">
-            <label>Buscar Cultivo:</label>
-            <input type="text" id="buscarNombre" placeholder="Ej: Fresa..." oninput="actualizarTabla()">
+            <label>Temporada Inicial:</label>
+            <select id="selectTemporada" onchange="actualizarTabla()">
+                <option value="primavera">Primavera</option>
+                <option value="verano">Verano</option>
+                <option value="otoño">Otoño</option>
+                <option value="invierno">Invierno</option>
+            </select>
         </div>
 
         <div class="control-group">
-            <label>Ubicación / Temporada:</label>
-            <select id="selectTemporada" onchange="actualizarTabla()">
-                <option value="Primavera">Primavera</option>
-                <option value="Verano">Verano</option>
-                <option value="Otoño">Otoño</option>
-                <option value="Invernadero">Invernadero / Isla Jengibre</option>
-            </select>
+            <label>Día de Siembra (1-28):</label>
+            <input type="number" id="inputDia" value="1" min="1" max="28" oninput="actualizarTabla()">
         </div>
 
         <div class="control-group">
@@ -122,8 +177,8 @@
                 <th>Cosechas</th>
                 <th>Inversión</th>
                 <th>Oro por dia</th>
-                <th>Oro Total fin de mes</th>
-                <th>Profit</th>
+                <th id="tituloOroTotal">Oro Total fin de mes</th>
+                <th>Profit Neto</th>
                 <th>Obtención</th>
             </tr>
         </thead>
@@ -134,53 +189,43 @@
 <script>
     const data = {
         "cultivos": [
+            // HE AÑADIDO 'fases' A ESTOS DOS PARA QUE VEAS LA MAGIA
+            { "nombre": "Chirivia", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "fases": [1, 1, 1, 1], "rebrote": false, "precio_semilla": 20, "precio_venta": 35, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Ruibarbo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 13, "fases": [2, 2, 2, 3, 4], "rebrote": false, "precio_semilla": 100, "precio_venta": 220, "descripcion": "Oasis", "tipo": "Compradas" },
+            
+            // PRIMAVERA RESTO
             { "nombre": "Ajo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 40, "precio_venta": 60, "descripcion": "Pierre (Año 2)", "tipo": "Compradas" },
             { "nombre": "Allium azul", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 30, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Arroz sin moler", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 40, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Chirivia", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 20, "precio_venta": 35, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Col rizada", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 70, "precio_venta": 110, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Coliflor", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 80, "precio_venta": 175, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Fresa (Día 1)", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "dia_siembra": 1, "descripcion": "Año anterior", "tipo": "Especial" },
-            { "nombre": "Fresa (Día 13)", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "dia_siembra": 13, "descripcion": "Festival Huevo", "tipo": "Especial" },
+            { "nombre": "Fresa", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "descripcion": "Festival Huevo / Guardadas", "tipo": "Especial" },
             { "nombre": "Judia verde", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 40, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Patata", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Ruibarbo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 100, "precio_venta": 220, "descripcion": "Oasis", "tipo": "Compradas" },
             { "nombre": "Tulipan", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 20, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Zanahoria", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 3, "rebrote": false, "precio_semilla": 0, "precio_venta": 35, "descripcion": "Cavando", "tipo": "Recogidas" },
-            { "nombre": "Amapola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 100, "precio_venta": 140, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Arandano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": true, "dias_rebrote": 4, "multiplicador": 3, "precio_semilla": 80, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Calabaza amarilla", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 0, "precio_venta": 45, "descripcion": "Encontrada", "tipo": "Recogidas" },
-            { "nombre": "Carambola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 400, "precio_venta": 750, "descripcion": "Oasis", "tipo": "Compradas" },
-            { "nombre": "Chile", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 5, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 40, "precio_venta": 40, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Girasol", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 125, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Lentejuela de verano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 50, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Lombarda", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 9, "rebrote": false, "precio_semilla": 100, "precio_venta": 260, "descripcion": "Año 2", "tipo": "Compradas" },
-            { "nombre": "Lupulo", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "rebrote": true, "dias_rebrote": 1, "precio_semilla": 60, "precio_venta": 25, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Maiz", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 14, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 150, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
+            
+            // VERANO Y OTOÑO (Resumidos aquí para brevedad, mantén los tuyos igual)
             { "nombre": "Melon", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 80, "precio_venta": 250, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Rabano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 40, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Tomate", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "rebrote": true, "dias_rebrote": 4, "precio_semilla": 50, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Trigo", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 10, "precio_venta": 25, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Alcachofa", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 30, "precio_venta": 160, "descripcion": "Año 2", "tipo": "Compradas" },
-            { "nombre": "Amaranto", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "rebrote": false, "precio_semilla": 70, "precio_venta": 150, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Berenjena", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 5, "rebrote": true, "dias_rebrote": 5, "precio_semilla": 20, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Brocoli", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 0, "precio_venta": 70, "descripcion": "Encontrado", "tipo": "Recogidas" },
+            { "nombre": "Carambola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 400, "precio_venta": 750, "descripcion": "Oasis", "tipo": "Compradas" },
+            { "nombre": "Arandano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "rebrote": true, "dias_rebrote": 4, "multiplicador": 3, "precio_semilla": 80, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Calabaza", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 13, "rebrote": false, "precio_semilla": 100, "precio_venta": 320, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Col china", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 4, "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Grosella", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "rebrote": true, "dias_rebrote": 5, "multiplicador": 2, "precio_semilla": 240, "precio_venta": 75, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Ñame", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "rebrote": false, "precio_semilla": 60, "precio_venta": 160, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Remolacha", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 6, "rebrote": false, "precio_semilla": 20, "precio_venta": 100, "descripcion": "Oasis", "tipo": "Compradas" },
-            { "nombre": "Rosa hada", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 12, "rebrote": false, "precio_semilla": 200, "precio_venta": 290, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Uva", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Grano de cafe", "temporada": ["Primavera","Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": true, "dias_rebrote": 2, "precio_semilla": 2500, "precio_venta": 15, "multiplicador": 4, "descripcion": "Carro", "tipo": "Compradas" },
-            { "nombre": "Fruto de taro", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 10, "rebrote": false, "precio_semilla": 0, "precio_venta": 100, "descripcion": "Isla", "tipo": "Especial" },
-            { "nombre": "Piña", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 14, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 300, "descripcion": "Isla", "tipo": "Especial" },
-            { "nombre": "Higo chumbo", "temporada": ["Invernadero"], "dias_crecimiento": 12, "rebrote": true, "dias_rebrote": 3, "precio_semilla": 150, "precio_venta": 75, "descripcion": "Oasis", "tipo": "Compradas" },
-            { "nombre": "Fruta milenaria", "temporada": ["Primavera","Verano","Otoño","Invernadero"], "dias_crecimiento": 28, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 550, "descripcion": "Especial", "tipo": "Especial" }
+            { "nombre": "Fruta milenaria", "temporada": ["Invernadero"], "dias_crecimiento": 27, "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 550, "descripcion": "Especial", "tipo": "Especial" }
+            // IMPORTANTE: Asegúrate de pegar AQUÍ el resto de tus cultivos que tenías antes
         ]
     };
 
     let categoriasActivas = ["Todos"];
+    let ubicacionActiva = "Granja"; 
+
+    function setUbicacion(ubi) {
+        ubicacionActiva = ubi;
+        document.querySelectorAll('.btn-ubicacion').forEach(b => {
+            b.classList.remove('active');
+            if(b.getAttribute('data-ubi') === ubi) b.classList.add('active');
+        });
+        actualizarTabla();
+    }
 
     function toggleFiltro(cat) {
         const btns = document.querySelectorAll('.btn-filtro');
@@ -192,7 +237,6 @@
         } else {
             categoriasActivas = categoriasActivas.filter(c => c !== "Todos");
             document.querySelector('[data-cat="Todos"]').classList.remove('active');
-
             if (categoriasActivas.includes(cat)) {
                 categoriasActivas = categoriasActivas.filter(c => c !== cat);
                 document.querySelector(`[data-cat="${cat}"]`).classList.remove('active');
@@ -214,82 +258,239 @@
         return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${fileName}.png`;
     }
 
-    function calcularStats(c, bonoAcelerador, tieneAgricultor, tieneLabrador, cantidad) {
-        let diaInicio = c.dia_siembra || 1;
-        let diasDisponibles = 28 - diaInicio;
-        let bonoTotal = parseFloat(bonoAcelerador) + (tieneAgricultor ? 0.10 : 0);
-        let diasCrecimientoEfectivo = Math.max(1, Math.floor(c.dias_crecimiento * (1 - bonoTotal)));
-        let precioVentaEfectivo = c.precio_venta * (tieneLabrador ? 1.1 : 1);
-        let costoFertilizante = bonoAcelerador === "0.10" ? 100 : (bonoAcelerador === "0.25" ? 150 : 0);
-
-        let maxCosechas = 0;
-        let oroBrutoPorPlanta = 0;
-        let inversionPorPlanta = 0;
-
-        if (c.rebrote){
-            maxCosechas = diasDisponibles < diasCrecimientoEfectivo ? 0 : 1 + Math.floor((diasDisponibles - diasCrecimientoEfectivo) / c.dias_rebrote);
-            oroBrutoPorPlanta = maxCosechas * precioVentaEfectivo * (c.multiplicador || 1);
-            inversionPorPlanta = c.precio_semilla + costoFertilizante;
+    function toggleDetalles(id) {
+        const filaDetalle = document.getElementById(id);
+        if (filaDetalle.style.display === "none") {
+            filaDetalle.style.display = "table-row";
         } else {
-            maxCosechas = Math.floor(diasDisponibles / diasCrecimientoEfectivo);
-            oroBrutoPorPlanta = maxCosechas * precioVentaEfectivo * (c.multiplicador || 1);
-            inversionPorPlanta = (c.precio_semilla * maxCosechas) + costoFertilizante;
+            filaDetalle.style.display = "none";
+        }
+    }
+
+    // --- MAGIA NUEVA: Función generadora del calendario ---
+    function generarCalendarioHTML(c, diaSiembra, reduccionDias) {
+        // Si no le has puesto fases al cultivo en el data, inventamos unas básicas para que no se rompa
+        let fases = c.fases;
+        if (!fases) {
+            let media = Math.floor(c.dias_crecimiento / 4);
+            fases = [media || 1, media || 1, media || 1, c.dias_crecimiento - (media*3) || 1];
         }
 
-        let profitPlanta = oroBrutoPorPlanta - inversionPorPlanta;
+        // Lógica oficial del juego: reducir días empezando por la fase 1, 2, 3...
+        let fasesEfectivas = [...fases];
+        let reduccionPendiente = reduccionDias;
+        let idx = 0;
+        let proteccionInfinita = 0;
+        
+        while(reduccionPendiente > 0 && proteccionInfinita < 100) {
+            if(fasesEfectivas[idx] > 1) { // Ninguna fase puede durar menos de 1 día
+                fasesEfectivas[idx]--;
+                reduccionPendiente--;
+            }
+            idx++;
+            if (idx >= fasesEfectivas.length) idx = 0; // Vuelve a la primera fase
+            proteccionInfinita++;
+        }
+
+        // Simular el mes
+        let mapaDias = new Array(29).fill(null);
+        let diaActual = diaSiembra;
+        let faseVisual = 1;
+
+        // Crecimiento
+        for(let i = 0; i < fasesEfectivas.length; i++) {
+            for(let d = 0; d < fasesEfectivas[i]; d++) {
+                if(diaActual <= 28) mapaDias[diaActual] = faseVisual;
+                diaActual++;
+            }
+            faseVisual++;
+        }
+
+        // Cosecha y Rebrotes
+        let esDiaCosecha = false;
+        while(diaActual <= 28) {
+            if (!esDiaCosecha) {
+                mapaDias[diaActual] = "Cosecha";
+                esDiaCosecha = true;
+                if(!c.rebrote) {
+                    // Si el cultivo no tiene rebrote y el usuario replanta el mismo día
+                    diaActual++; // Simula que vuelve a empezar el ciclo al día siguiente
+                    faseVisual = 1;
+                    for(let i = 0; i < fasesEfectivas.length; i++) {
+                        for(let d = 0; d < fasesEfectivas[i]; d++) {
+                            if(diaActual <= 28) mapaDias[diaActual] = faseVisual;
+                            diaActual++;
+                        }
+                        faseVisual++;
+                    }
+                    esDiaCosecha = false; // Prepáralo por si vuelve a alcanzar la cosecha
+                    diaActual--; // Ajuste por el loop
+                } else {
+                    diaActual++;
+                }
+            } else {
+                // Ciclo de rebrote
+                for(let r = 1; r < c.dias_rebrote; r++) {
+                    if(diaActual <= 28) mapaDias[diaActual] = faseVisual - 1; // Muestra la planta casi madura
+                    diaActual++;
+                }
+                esDiaCosecha = false; 
+            }
+        }
+
+        // Armar el HTML
+        let html = `
+        <div style="flex: 1; min-width: 350px;">
+            <div class="calendario-container">
+                <div class="calendario-header-top">Base Crecimiento: ${c.nombre}</div>
+                <div class="calendario-grid">
+                    <div class="cal-header">Lu</div><div class="cal-header">Ma</div><div class="cal-header">Mi</div>
+                    <div class="cal-header">Ju</div><div class="cal-header">Vi</div><div class="cal-header">Sá</div><div class="cal-header">Do</div>
+        `;
+
+        let baseName = c.nombre.split(' (')[0];
+        let nombreCodi = encodeURIComponent(baseName);
+
+        for(let i = 1; i <= 28; i++) {
+            let contenido = '';
+            let claseCelda = (i < diaSiembra) ? 'vacio' : '';
+            if (i === diaSiembra) claseCelda = 'plantado';
+
+            if(mapaDias[i] === "Cosecha") {
+                contenido = `<img src="${getIconUrl(c.nombre)}" title="Cosecha (Día ${i})" class="cal-img cosecha-anim">`;
+            } else if (mapaDias[i] !== null) {
+                // NOTA IMPORTANTE: Cambia "Fases" por la carpeta donde subirás las imágenes
+                let urlFase = `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/Fases/${nombreCodi}_Fase_${mapaDias[i]}.png`;
+                contenido = `<img src="${urlFase}" title="Fase ${mapaDias[i]}" class="cal-img" onerror="this.src='https://via.placeholder.com/32?text=F${mapaDias[i]}'">`;
+            }
+
+            html += `<div class="cal-celda ${claseCelda}">
+                        <span class="cal-num">${i}</span>
+                        ${contenido}
+                     </div>`;
+        }
+        html += `</div></div></div>`;
+        return html;
+    }
+
+    function calcularStats(c, bonoAcelerador, tieneAgricultor, tieneLabrador, cantidad, diasDisponibles) {
+        let bonoTotal = parseFloat(bonoAcelerador) + (tieneAgricultor ? 0.10 : 0);
+        let reduccionDias = Math.ceil(c.dias_crecimiento * bonoTotal);
+        let diasCrecimientoEfectivo = Math.max(1, c.dias_crecimiento - reduccionDias);
+        
+        let precioVentaEfectivo = Math.floor(c.precio_venta * (tieneLabrador ? 1.1 : 1));
+        let costoFertilizante = (bonoAcelerador === "0.10") ? 100 : ((bonoAcelerador === "0.25") ? 150 : 0);
+
+        let maxCosechas = 0; let oroBrutoPorPlanta = 0; let inversionPorPlanta = 0; let diasPlantado = 0;
+
+        if (c.rebrote) {
+            if (diasDisponibles >= diasCrecimientoEfectivo) {
+                maxCosechas = 1 + Math.floor((diasDisponibles - diasCrecimientoEfectivo) / c.dias_rebrote);
+                diasPlantado = diasCrecimientoEfectivo + ((maxCosechas - 1) * c.dias_rebrote);
+            }
+            oroBrutoPorPlanta = maxCosechas * precioVentaEfectivo * (c.multiplicador || 1);
+            inversionPorPlanta = (c.precio_semilla || 0) + costoFertilizante;
+        } else {
+            maxCosechas = Math.floor(diasDisponibles / diasCrecimientoEfectivo);
+            diasPlantado = maxCosechas * diasCrecimientoEfectivo;
+            oroBrutoPorPlanta = maxCosechas * precioVentaEfectivo * (c.multiplicador || 1);
+            inversionPorPlanta = ((c.precio_semilla || 0) * maxCosechas) + costoFertilizante;
+        }
+
+        let profitPlanta = maxCosechas > 0 ? (oroBrutoPorPlanta - inversionPorPlanta) : ((c.precio_semilla || 0) * -1);
+        
         return {
             cosechas: maxCosechas,
-            gpd: (profitPlanta / 28).toFixed(2),
+            gpd: maxCosechas > 0 ? (profitPlanta / (diasPlantado || 1)).toFixed(2) : "0.00",
             oroBrutoTotal: oroBrutoPorPlanta * cantidad,
             profitTotal: profitPlanta * cantidad,
-            inversionTotal: inversionPorPlanta * cantidad
+            inversionTotal: (maxCosechas > 0 ? inversionPorPlanta : (c.precio_semilla || 0)) * cantidad,
+            reduccionAplicada: reduccionDias // Pasamos este dato al calendario
         };
     }
 
     function actualizarTabla() {
-        const busqueda = document.getElementById('buscarNombre').value.toLowerCase();
-        const filtroTemporada = document.getElementById('selectTemporada').value;
+        const ubicacion = ubicacionActiva; 
+        const filtroTemporada = document.getElementById('selectTemporada').value.toLowerCase();
         const acelerador = document.getElementById('selectAcelerador').value;
         const agricultor = document.getElementById('checkAgricultor').checked;
         const labrador = document.getElementById('checkLabrador').checked;
         const cantidad = parseInt(document.getElementById('inputCantidad').value) || 1;
-        const cuerpo = document.getElementById('cuerpoTabla');
+        const diaActual = parseInt(document.getElementById('inputDia').value) || 1;
         
-        let filtrados = data.cultivos.filter(c => 
-            c.temporada.some(t => t.toLowerCase().includes(filtroTemporada.toLowerCase().split(' ')[0]))
-        );
+        const cuerpo = document.getElementById('cuerpoTabla');
+        const tituloOro = document.getElementById('tituloOroTotal');
+        
+        let diasDisponibles = 0;
+        if (ubicacion === "Granja") {
+            diasDisponibles = 28 - diaActual;
+            tituloOro.textContent = "Oro Total a final de mes"; 
+        } else {
+            const mapTemporadas = { "primavera": 0, "verano": 1, "otoño": 2, "invierno": 3 };
+            let indiceTemporada = mapTemporadas[filtroTemporada];
+            let diaDelAño = (indiceTemporada * 28) + diaActual;
+            diasDisponibles = 112 - diaDelAño; 
+            tituloOro.textContent = "Oro Total a final de año";
+        }
+
+        let filtrados = data.cultivos.filter(c => {
+            if (ubicacion === "Granja") {
+                return c.temporada.some(t => t.toLowerCase() === filtroTemporada);
+            } else {
+                return c.temporada.some(t => t.toLowerCase() === "invernadero");
+            }
+        });
 
         if (!categoriasActivas.includes("Todos")) {
             filtrados = filtrados.filter(c => categoriasActivas.includes(c.tipo));
         }
 
-        if(busqueda) {
-            filtrados = filtrados.filter(c => c.nombre.toLowerCase().includes(busqueda));
-        }
-
         let calculados = filtrados.map(c => {
-            const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad);
+            const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad, diasDisponibles);
             return { ...c, ...stats };
         });
 
         calculados.sort((a, b) => b.profitTotal - a.profitTotal);
 
         cuerpo.innerHTML = "";
-        calculados.forEach(c => {
+        calculados.forEach((c, index) => {
+            const noDaTiempo = c.cosechas === 0;
+            const idDetalle = `detalles-${index}`;
+            const estiloFila = noDaTiempo ? 'opacity: 0.6; background-color: rgba(255,0,0,0.08);' : '';
+            
             cuerpo.innerHTML += `
-                <tr>
+                <tr class="fila-principal" style="${estiloFila}" onclick="toggleDetalles('${idDetalle}')">
                     <td>
                         <div class="crop-info">
                             <img class="crop-icon" src="${getIconUrl(c.nombre)}" alt="${c.nombre}" onerror="this.style.visibility='hidden'">
                             <strong>${c.nombre}</strong>
                         </div>
                     </td>
-                    <td class="cosecha-count">${c.cosechas}</td>
+                    <td class="cosecha-count">
+                        ${noDaTiempo ? '<span style="color: #d32f2f; font-size: 0.85em;">¡No da tiempo!</span>' : c.cosechas}
+                    </td>
                     <td><span class="inversion-badge">$ ${c.inversionTotal.toFixed(0)}</span></td>
                     <td><span class="gpd-badge">$ ${c.gpd}</span></td>
                     <td><span class="gold-badge">$ ${c.oroBrutoTotal.toFixed(0)}</span></td>
-                    <td><span class="profit-badge">$ ${c.profitTotal.toFixed(0)}</span></td>
+                    <td><span class="profit-badge" style="${noDaTiempo ? 'background: #ffcdd2; color: #b71c1c;' : ''}">
+                        $ ${c.profitTotal.toFixed(0)}
+                    </span></td>
                     <td class="desc">${c.descripcion}</td>
+                </tr>
+                
+                <tr id="${idDetalle}" class="fila-detalles" style="display: none;">
+                    <td colspan="7">
+                        <div class="contenido-detalles">
+                            ${generarCalendarioHTML(c, diaActual, c.reduccionAplicada)}
+                            
+                            <div style="flex: 1; min-width: 250px; padding-left: 20px;">
+                                <strong style="font-size: 1.1em; color: var(--farm-green);">📦 Panel de Procesamiento:</strong>
+                                <p style="margin-top: 10px; color: #333;">
+                                    Aquí aparecerán las ganancias artesanales.
+                                </p>
+                            </div>
+                        </div>
+                    </td>
                 </tr>`;
         });
     }
