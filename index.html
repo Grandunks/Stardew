@@ -622,7 +622,6 @@
         inversionTotal: inversionTotal,
         profitTotal: oroBrutoTotal - inversionTotal,
         reduccionAplicada: reduccionDias,
-        // Guardamos esto para el desglose visual
         cantSemillasPrincipal: maxCosechasPrincipal 
     };
 }
@@ -698,7 +697,7 @@
     function renderPanelReplante(nombreCultivo) {
         let replantes = estadoReplantes[nombreCultivo] || [];
         
-        let html = `<strong style="font-size: 1.1em; color: var(--farm-green);">🌱 Secuencia de Cultivos</strong>
+        let html = `<strong style="font-size: 1.1em; color: var(--farm-green);"> Secuencia de Cultivos</strong>
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">`;
 
         replantes.forEach((rep, index) => {
@@ -799,7 +798,7 @@
     });
 
     let html = `
-        <h3 style="margin-top:0; color:var(--farm-green); border-bottom: 2px solid #ddd; padding-bottom:5px;">💰 Carrito de Compra</h3>
+        <h3 style="margin-top:0; color:var(--farm-green); border-bottom: 2px solid #ddd; padding-bottom:5px;"> Carrito de Compra</h3>
         <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">`;
 
     listaSemillas.forEach(item => {
