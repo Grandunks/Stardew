@@ -124,6 +124,21 @@
         .gold-badge { background: var(--accent-gold); padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #5d4037; }
         .inversion-badge { background: #ffcdd2; padding: 5px 10px; border-radius: 15px; font-weight: bold; color: #b71c1c; }
         .cosecha-count { font-weight: bold; color: #0011ff; text-align: center; }
+
+        /* ESTILOS DEL NUEVO PANEL DE REPLANTE */
+        .btn-accion {
+            background: var(--farm-green); color: white; border: none; padding: 10px 15px;
+            border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 10px; transition: 0.3s;
+        }
+        .btn-accion:hover { background: #2a205c; }
+        .top5-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+        .top5-card {
+            display: flex; align-items: center; gap: 10px; padding: 8px;
+            background: white; border: 1px solid #ccc; border-radius: 5px;
+            cursor: pointer; transition: 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .top5-card:hover { background: #e8f5e9; border-color: #4caf50; transform: translateX(5px); }
+        .top5-card img { width: 28px; height: 28px; object-fit: contain; image-rendering: pixelated; }
     </style>
 </head>
 <body>
@@ -204,48 +219,48 @@
 <script>
     const data = {
         "cultivos": [
-            // CULTIVOS CON FASES
-            { "nombre": "Chirivia", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "fases": [1, 1, 1, 1], "rebrote": false, "precio_semilla": 20, "precio_venta": 35, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Ruibarbo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 13, "fases": [2, 2, 2, 3, 4], "rebrote": false, "precio_semilla": 100, "precio_venta": 220, "descripcion": "Oasis", "tipo": "Compradas" },
-            { "nombre": "Fresa", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "fases": [1, 2, 2, 3], "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "descripcion": "Festival Huevo / Guardadas", "tipo": "Especial" },
+            // MATRICES OFICIALES DEL CÓDIGO FUENTE DE STARDEW
             { "nombre": "Ajo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "fases": [1, 1, 1, 1], "rebrote": false, "precio_semilla": 40, "precio_venta": 60, "descripcion": "Pierre (Año 2)", "tipo": "Compradas" },
             { "nombre": "Allium azul", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 7, "fases": [1, 2, 2, 2], "rebrote": false, "precio_semilla": 30, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Arroz sin moler", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "rebrote": false, "precio_semilla": 40, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Arroz sin moler", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "fases": [1, 2, 2, 3], "rebrote": false, "precio_semilla": 40, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Chirivia", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 4, "fases": [1, 1, 1, 1], "rebrote": false, "precio_semilla": 20, "precio_venta": 35, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Col rizada", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "fases": [1, 2, 2, 1], "rebrote": false, "precio_semilla": 70, "precio_venta": 110, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Coliflor", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 12, "fases": [2, 3, 4, 3], "rebrote": false, "precio_semilla": 80, "precio_venta": 175, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Judia verde", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 10, "fases": [2, 3, 3, 2], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 40, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Patata", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "fases": [1, 2, 2, 1], "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Tulipan", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "fases": [1, 2, 2, 1], "rebrote": false, "precio_semilla": 20, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Coliflor", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 12, "fases": [1, 2, 4, 4, 1], "rebrote": false, "precio_semilla": 80, "precio_venta": 175, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Fresa", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 8, "fases": [1, 1, 2, 2, 2], "rebrote": true, "dias_rebrote": 4, "precio_semilla": 100, "precio_venta": 120, "descripcion": "Festival Huevo / Guardadas", "tipo": "Especial" },
+            { "nombre": "Judia verde", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 10, "fases": [1, 1, 1, 3, 4], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 40, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Patata", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "fases": [1, 1, 1, 2, 1], "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Ruibarbo", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 13, "fases": [2, 2, 2, 3, 4], "rebrote": false, "precio_semilla": 100, "precio_venta": 220, "descripcion": "Oasis", "tipo": "Compradas" },
+            { "nombre": "Tulipan", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 6, "fases": [1, 1, 2, 2], "rebrote": false, "precio_semilla": 20, "precio_venta": 30, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Zanahoria", "temporada": ["Primavera","Invernadero"], "dias_crecimiento": 3, "fases": [1, 1, 1], "rebrote": false, "precio_semilla": 0, "precio_venta": 35, "descripcion": "Cavando", "tipo": "Recogidas" },
             { "nombre": "Amapola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 7, "fases": [1, 2, 2, 2], "rebrote": false, "precio_semilla": 100, "precio_venta": 140, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Arandano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "fases": [2, 3, 4, 4], "rebrote": true, "dias_rebrote": 4, "multiplicador": 3, "precio_semilla": 80, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Arandano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "fases": [1, 3, 3, 4, 2], "rebrote": true, "dias_rebrote": 4, "multiplicador": 3, "precio_semilla": 80, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Calabaza amarilla", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "fases": [1, 2, 2, 1], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 0, "precio_venta": 45, "descripcion": "Encontrada", "tipo": "Recogidas" },
-            { "nombre": "Carambola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "fases": [2, 3, 3, 5], "rebrote": false, "precio_semilla": 400, "precio_venta": 750, "descripcion": "Oasis", "tipo": "Compradas" },
-            { "nombre": "Chile", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 5, "fases": [1, 1, 1, 2], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 40, "precio_venta": 40, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Carambola", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 13, "fases": [2, 3, 2, 3, 3], "rebrote": false, "precio_semilla": 400, "precio_venta": 750, "descripcion": "Oasis", "tipo": "Compradas" },
+            { "nombre": "Chile", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 5, "fases": [1, 1, 1, 1, 1], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 40, "precio_venta": 40, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Girasol", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 8, "fases": [1, 2, 2, 3], "rebrote": false, "precio_semilla": 125, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Lentejuela de verano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 8, "fases": [1, 2, 3, 2], "rebrote": false, "precio_semilla": 50, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Lentejuela de verano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 8, "fases": [1, 2, 2, 3], "rebrote": false, "precio_semilla": 50, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Lombarda", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 9, "fases": [2, 2, 2, 3], "rebrote": false, "precio_semilla": 100, "precio_venta": 260, "descripcion": "Año 2", "tipo": "Compradas" },
-            { "nombre": "Lupulo", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "fases": [2, 3, 3, 3], "rebrote": true, "dias_rebrote": 1, "precio_semilla": 60, "precio_venta": 25, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Maiz", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 14, "fases": [3, 4, 3, 4], "rebrote": true, "dias_rebrote": 4, "precio_semilla": 150, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Melon", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 12, "fases": [2, 3, 3, 4], "rebrote": false, "precio_semilla": 80, "precio_venta": 250, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Rabano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "fases": [1, 2, 2, 1], "rebrote": false, "precio_semilla": 40, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Tomate", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "fases": [2, 3, 3, 3], "rebrote": true, "dias_rebrote": 4, "precio_semilla": 50, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Lupulo", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "fases": [1, 2, 3, 3, 2], "rebrote": true, "dias_rebrote": 1, "precio_semilla": 60, "precio_venta": 25, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Maiz", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 14, "fases": [2, 3, 3, 3, 3], "rebrote": true, "dias_rebrote": 4, "precio_semilla": 150, "precio_venta": 50, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Melon", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 12, "fases": [2, 3, 4, 3], "rebrote": false, "precio_semilla": 80, "precio_venta": 250, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Rabano", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 6, "fases": [2, 1, 2, 1], "rebrote": false, "precio_semilla": 40, "precio_venta": 90, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Tomate", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 11, "fases": [2, 2, 2, 2, 3], "rebrote": true, "dias_rebrote": 4, "precio_semilla": 50, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Trigo", "temporada": ["Verano","Otoño","Invernadero"], "dias_crecimiento": 4, "fases": [1, 1, 1, 1], "rebrote": false, "precio_semilla": 10, "precio_venta": 25, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Alcachofa", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "fases": [2, 2, 2, 2], "rebrote": false, "precio_semilla": 30, "precio_venta": 160, "descripcion": "Año 2", "tipo": "Compradas" },
             { "nombre": "Amaranto", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "fases": [1, 2, 2, 2], "rebrote": false, "precio_semilla": 70, "precio_venta": 150, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Berenjena", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 5, "fases": [1, 1, 1, 2], "rebrote": true, "dias_rebrote": 5, "precio_semilla": 20, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Berenjena", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 5, "fases": [1, 1, 1, 1, 1], "rebrote": true, "dias_rebrote": 5, "precio_semilla": 20, "precio_venta": 60, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Brocoli", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 8, "fases": [1, 2, 2, 3], "rebrote": false, "precio_semilla": 0, "precio_venta": 70, "descripcion": "Encontrado", "tipo": "Recogidas" },
             { "nombre": "Calabaza", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 13, "fases": [2, 3, 4, 4], "rebrote": false, "precio_semilla": 100, "precio_venta": 320, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Col china", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 4, "fases": [1, 1, 1, 1], "rebrote": false, "precio_semilla": 50, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Grosella", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "fases": [1, 2, 2, 2], "rebrote": true, "dias_rebrote": 5, "multiplicador": 2, "precio_semilla": 240, "precio_venta": 75, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Grosella", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 7, "fases": [1, 2, 1, 1, 2], "rebrote": true, "dias_rebrote": 5, "multiplicador": 2, "precio_semilla": 240, "precio_venta": 75, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Ñame", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "fases": [2, 3, 3, 2], "rebrote": false, "precio_semilla": 60, "precio_venta": 160, "descripcion": "Pierre", "tipo": "Compradas" },
             { "nombre": "Remolacha", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 6, "fases": [1, 2, 2, 1], "rebrote": false, "precio_semilla": 20, "precio_venta": 100, "descripcion": "Oasis", "tipo": "Compradas" },
             { "nombre": "Rosa hada", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 12, "fases": [2, 3, 4, 3], "rebrote": false, "precio_semilla": 200, "precio_venta": 290, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Uva", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "fases": [2, 3, 3, 2], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
-            { "nombre": "Grano de cafe", "temporada": ["Primavera","Verano","Invernadero"], "dias_crecimiento": 10, "fases": [2, 3, 3, 2], "rebrote": true, "dias_rebrote": 2, "precio_semilla": 2500, "precio_venta": 15, "multiplicador": 4, "descripcion": "Carro", "tipo": "Compradas" },
+            { "nombre": "Uva", "temporada": ["Otoño","Invernadero"], "dias_crecimiento": 10, "fases": [1, 1, 2, 3, 3], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 60, "precio_venta": 80, "descripcion": "Pierre", "tipo": "Compradas" },
+            { "nombre": "Grano de cafe", "temporada": ["Primavera","Verano","Invernadero"], "dias_crecimiento": 10, "fases": [1, 2, 2, 3, 2], "rebrote": true, "dias_rebrote": 2, "precio_semilla": 2500, "precio_venta": 15, "multiplicador": 4, "descripcion": "Carro", "tipo": "Compradas" },
             { "nombre": "Fruto de taro", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 10, "fases": [2, 3, 3, 2], "rebrote": false, "precio_semilla": 0, "precio_venta": 100, "descripcion": "Isla", "tipo": "Especial" },
-            { "nombre": "Piña", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 14, "fases": [3, 4, 3, 4], "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 300, "descripcion": "Isla", "tipo": "Especial" },
-            { "nombre": "Higo chumbo", "temporada": ["Invernadero"], "dias_crecimiento": 12, "fases": [2, 3, 3, 4], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 150, "precio_venta": 75, "descripcion": "Oasis", "tipo": "Compradas" },
+            { "nombre": "Piña", "temporada": ["Verano","Invernadero"], "dias_crecimiento": 14, "fases": [2, 3, 3, 3, 3], "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 300, "descripcion": "Isla", "tipo": "Especial" },
+            { "nombre": "Higo chumbo", "temporada": ["Invernadero"], "dias_crecimiento": 12, "fases": [2, 3, 4, 3], "rebrote": true, "dias_rebrote": 3, "precio_semilla": 150, "precio_venta": 75, "descripcion": "Oasis", "tipo": "Compradas" },
             { "nombre": "Fruta milenaria", "temporada": ["Invernadero"], "dias_crecimiento": 27, "fases": [4, 5, 5, 6, 7], "rebrote": true, "dias_rebrote": 7, "precio_semilla": 0, "precio_venta": 550, "descripcion": "Especial", "tipo": "Especial" }
         ]
     };
@@ -253,20 +268,20 @@
     let categoriasActivas = ["Todos"];
     let ubicacionActiva = "Granja"; 
     
+    // MEMORIA DE UI
     let cultivosExpandidos = new Set(); 
+    // MEMORIA DE REPLANTES: { "Chirivia": [ { dia: 15, seleccionado: "Ajo" }, { dia: 22, seleccionado: "Tulipan" } ] }
+    let estadoReplantes = {}; 
 
     function setUbicacion(ubi) {
         ubicacionActiva = ubi;
-        document.querySelectorAll('.btn-ubicacion').forEach(b => {
-            b.classList.remove('active');
-            if(b.getAttribute('data-ubi') === ubi) b.classList.add('active');
-        });
+        document.querySelectorAll('.btn-ubicacion').forEach(b => b.classList.remove('active'));
+        document.querySelector(`[data-ubi="${ubi}"]`).classList.add('active');
         actualizarTabla();
     }
 
     function toggleFiltro(cat) {
         const btns = document.querySelectorAll('.btn-filtro');
-        
         if (cat === "Todos") {
             categoriasActivas = ["Todos"];
             btns.forEach(b => b.classList.remove('active'));
@@ -306,124 +321,226 @@
         }
     }
 
-    // --- MOTOR DE CRECIMIENTO VISUAL CORREGIDO Y EXACTO ---
-    function generarCalendarioHTML(c, diaSiembra, reduccionDias) {
-        let fases = c.fases;
-        if (!fases) {
-            let media = Math.floor(c.dias_crecimiento / 4);
-            fases = [media || 1, media || 1, media || 1, c.dias_crecimiento - (media*3) || 1];
-        }
-
-        let fasesEfectivas = [...fases];
-        let reduccionPendiente = Math.min(reduccionDias, c.dias_crecimiento - 1); 
-        let idx = 0;
+    // --- FUNCIONES PARA EL REPLANTE DINÁMICO (AHORA SOPORTA ARREGLOS) ---
+    function activarReplante(nombreCultivo) {
+        if (!estadoReplantes[nombreCultivo]) estadoReplantes[nombreCultivo] = [];
         
-        while(reduccionPendiente > 0) {
-            if(fasesEfectivas[idx] > 0) { 
-                fasesEfectivas[idx]--;
-                reduccionPendiente--;
+        let diaSugerido;
+        if (estadoReplantes[nombreCultivo].length > 0) {
+            let ultimoDia = estadoReplantes[nombreCultivo][estadoReplantes[nombreCultivo].length - 1].dia;
+            diaSugerido = ultimoDia + 5; 
+        } else {
+            let diaInicialDefault = parseInt(document.getElementById('inputDia').value) || 1;
+            diaSugerido = diaInicialDefault + 10;
+        }
+        
+        if (diaSugerido > 28) diaSugerido = 28;
+        
+        estadoReplantes[nombreCultivo].push({ dia: diaSugerido, seleccionado: null });
+        actualizarTabla();
+    }
+
+    function eliminarReplante(nombreCultivo, index) {
+        if (estadoReplantes[nombreCultivo]) {
+            estadoReplantes[nombreCultivo].splice(index, 1);
+            if (estadoReplantes[nombreCultivo].length === 0) {
+                delete estadoReplantes[nombreCultivo];
             }
-            idx++;
-            if (idx >= fasesEfectivas.length) idx = 0; 
+            actualizarTabla();
+        }
+    }
+
+    function cambiarDiaReplante(nombreCultivo, index, nuevoDia) {
+        if(estadoReplantes[nombreCultivo] && estadoReplantes[nombreCultivo][index]) {
+            estadoReplantes[nombreCultivo][index].dia = parseInt(nuevoDia) || 1;
+            estadoReplantes[nombreCultivo][index].seleccionado = null; 
+            actualizarTabla();
+        }
+    }
+
+    function seleccionarReplante(nombreCultivoBase, index, nombreSecundario) {
+        estadoReplantes[nombreCultivoBase][index].seleccionado = nombreSecundario;
+        actualizarTabla();
+    }
+
+    function calcularTop5(diaReplanteStr) {
+        let diaReplante = parseInt(diaReplanteStr);
+        let diasDisponibles = (ubicacionActiva === "Granja") ? 28 - diaReplante : 112 - diaReplante;
+        
+        const filtroTemporada = document.getElementById('selectTemporada').value.toLowerCase();
+        const acelerador = document.getElementById('selectAcelerador').value;
+        const agricultor = document.getElementById('checkAgricultor').checked;
+        const labrador = document.getElementById('checkLabrador').checked;
+        const cantidad = parseInt(document.getElementById('inputCantidad').value) || 1;
+
+        // Respeta filtro de ubicación y temporada
+        let filtrados = data.cultivos.filter(c => {
+            if (ubicacionActiva === "Granja") return c.temporada.some(t => t.toLowerCase() === filtroTemporada);
+            return c.temporada.some(t => t.toLowerCase() === "invernadero");
+        });
+
+        // Novedad: Respeta también los filtros activos de categoría (Compradas, Especial, etc.)
+        if (!categoriasActivas.includes("Todos")) {
+            filtrados = filtrados.filter(c => categoriasActivas.includes(c.tipo));
         }
 
-        let spritesAUsar = [];
-        for(let i=0; i<fasesEfectivas.length; i++) {
-            for(let d=0; d<fasesEfectivas[i]; d++) {
-                spritesAUsar.push(i + 1);
-            }
-        }
-        if (spritesAUsar.length > 0) {
-            spritesAUsar[0] = 1;
-        }
+        let calculados = filtrados.map(c => {
+            const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad, diasDisponibles);
+            return { ...c, ...stats };
+        });
 
-        let mapaDias = new Array(29).fill(null).map(() => ({ fase: null, cosecha: false }));
+        // Filtrar automáticamente las plantas que no dan tiempo a crecer (0 cosechas)
+        calculados = calculados.filter(c => c.cosechas > 0);
 
-        function simularCiclo(diaInicio, esRebrote) {
-            // PROYECCIÓN: ¿Alcanza a dar frutos antes de que acabe el mes?
-            let diaCosechaEsperado = diaInicio;
-            if (!esRebrote) {
-                diaCosechaEsperado += spritesAUsar.length;
-            } else {
-                diaCosechaEsperado += c.dias_rebrote;
-            }
+        calculados.sort((a, b) => b.profitTotal - a.profitTotal);
+        return calculados.slice(0, 5); 
+    }
 
-            // SI NO ALCANZA (Supera el día 28): Abortamos, no se planta ni crece
-            if (diaCosechaEsperado > 28) {
-                return 999; 
-            }
+    // --- MOTOR DE CRECIMIENTO VISUAL REESCRITO PARA MÚLTIPLES CULTIVOS ---
+    function generarCalendarioHTML(cPrincipal, diaSiembra1, arrayReplantes) {
+        let mapaDias = new Array(29).fill(null).map(() => ({ 
+            c: null, fase: null, cosecha: false, 
+            cAnterior: null, cosechaAnterior: false 
+        }));
 
-            // SI SÍ ALCANZA: Trazamos los días visuales
-            let dia = diaInicio;
-            if (!esRebrote) {
-                for(let k = 0; k < spritesAUsar.length; k++) {
-                    mapaDias[dia].fase = spritesAUsar[k];
-                    dia++;
+        function aplicarCultivo(cultivoObj, diaInicio, reduccionDias) {
+            let fases = cultivoObj.fases || [1, 1, 1, 1];
+            let fasesEfectivas = [...fases];
+            let reduccionPendiente = Math.min(reduccionDias, cultivoObj.dias_crecimiento - 1); 
+            
+            let iteraciones = 0;
+            while (reduccionPendiente > 0 && iteraciones < 3) {
+                for (let i = 0; i < fasesEfectivas.length; i++) {
+                    if ((i > 0 || fasesEfectivas[i] > 1) && fasesEfectivas[i] !== 1000) {
+                        fasesEfectivas[i]--; reduccionPendiente--;
+                    }
+                    if (reduccionPendiente <= 0) break;
                 }
-            } else {
-                for(let r = 0; r < c.dias_rebrote; r++) {
-                    if(!mapaDias[dia].cosecha) {
-                        mapaDias[dia].fase = 'Rebrote'; // Etiqueta para la imagen especial
+                iteraciones++;
+            }
+
+            let spritesAUsar = [];
+            for(let i=0; i<fasesEfectivas.length; i++) {
+                for(let d=0; d<fasesEfectivas[i]; d++) spritesAUsar.push(i + 1);
+            }
+
+            function simularCiclo(diaIni, esRebrote) {
+                let diaCosechaEsperado = diaIni + (esRebrote ? cultivoObj.dias_rebrote : spritesAUsar.length);
+                if (diaCosechaEsperado > 28) return 999; 
+
+                let dia = diaIni;
+                let iter = esRebrote ? cultivoObj.dias_rebrote : spritesAUsar.length;
+                for(let k = 0; k < iter; k++) {
+                    if(dia <= 28) {
+                        if (mapaDias[dia].cosecha) {
+                            mapaDias[dia].cosechaAnterior = true;
+                            mapaDias[dia].cAnterior = mapaDias[dia].c;
+                        }
+                        mapaDias[dia].c = cultivoObj;
+                        mapaDias[dia].fase = esRebrote ? 'Rebrote' : spritesAUsar[k];
+                        mapaDias[dia].cosecha = false; 
                     }
                     dia++;
                 }
+                if(dia <= 28) {
+                    mapaDias[dia].c = cultivoObj;
+                    mapaDias[dia].cosecha = true;
+                    mapaDias[dia].fase = null;
+                }
+                return dia; 
             }
-            mapaDias[dia].cosecha = true;
-            return dia; 
+
+            let dSim = simularCiclo(diaInicio, false);
+            while (dSim <= 28) {
+                dSim = simularCiclo(dSim, cultivoObj.rebrote);
+            }
         }
 
-        // Ejecutar primer ciclo
-        let diaActualSimulacion = simularCiclo(diaSiembra, false);
-        
-        // Ejecutar los siguientes hasta que se acabe el tiempo
-        while(diaActualSimulacion <= 28) {
-            if (c.rebrote) {
-                diaActualSimulacion = simularCiclo(diaActualSimulacion, true);
-            } else {
-                diaActualSimulacion = simularCiclo(diaActualSimulacion, false);
-            }
+        // 1. Aplicar Cultivo Principal
+        aplicarCultivo(cPrincipal, diaSiembra1, cPrincipal.reduccionAplicada);
+
+        // 2. Aplicar Cultivos Secundarios en cadena
+        if (arrayReplantes && arrayReplantes.length > 0) {
+            // Ordenar por dia por si acaso
+            let replantesOrdenados = [...arrayReplantes].sort((a,b) => a.dia - b.dia);
+            
+            replantesOrdenados.forEach(rep => {
+                if (rep.seleccionado) {
+                    let cSecundarioData = data.cultivos.find(x => x.nombre === rep.seleccionado);
+                    
+                    let bonoAcelerador = document.getElementById('selectAcelerador').value;
+                    let checkAgri = document.getElementById('checkAgricultor').checked;
+                    let bonoTotal = parseFloat(bonoAcelerador) + (checkAgri ? 0.10 : 0);
+                    let redSec = Math.ceil(cSecundarioData.dias_crecimiento * bonoTotal);
+                    
+                    let cSecundario = { ...cSecundarioData, reduccionAplicada: redSec };
+
+                    // Borramos el futuro desde el dia para hacerle espacio
+                    for(let d = rep.dia; d <= 28; d++) {
+                        let hasCosecha = mapaDias[d].cosecha;
+                        let oldC = mapaDias[d].c;
+                        mapaDias[d] = { c: null, fase: null, cosecha: false, cosechaAnterior: false, cAnterior: null };
+                        if (hasCosecha && d === rep.dia) {
+                            mapaDias[d].cosechaAnterior = true;
+                            mapaDias[d].cAnterior = oldC;
+                        }
+                    }
+                    aplicarCultivo(cSecundario, rep.dia, cSecundario.reduccionAplicada);
+                }
+            });
         }
 
         let html = `
-        <div style="flex: 1; min-width: 350px;">
+        <div>
             <div class="calendario-container">
-                <div class="calendario-header-top">Crecimiento Dinámico: ${c.nombre}</div>
+                <div class="calendario-header-top">Línea de Tiempo Dinámica</div>
                 <div class="calendario-grid">
                     <div class="cal-header">Lu</div><div class="cal-header">Ma</div><div class="cal-header">Mi</div>
                     <div class="cal-header">Ju</div><div class="cal-header">Vi</div><div class="cal-header">Sá</div><div class="cal-header">Do</div>
         `;
 
-        let baseName = c.nombre.split(' (')[0];
-        let nombreCodi = encodeURIComponent(baseName);
-        let urlFaseBase = `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/Fases/${nombreCodi}_Fase`;
-
         for(let i = 1; i <= 28; i++) {
             let contenido = '';
-            let claseCelda = (i < diaSiembra) ? 'vacio' : '';
-            if (i === diaSiembra) claseCelda = 'plantado';
+            let claseCelda = (i < diaSiembra1) ? 'vacio' : '';
+            
+            let estaPlantando = (i === diaSiembra1);
+            if (arrayReplantes) {
+                arrayReplantes.forEach(rep => {
+                    if (rep.seleccionado && i === rep.dia) estaPlantando = true;
+                });
+            }
+            if (estaPlantando) claseCelda = 'plantado';
 
             let dataDia = mapaDias[i];
+            
+            if (dataDia.c || dataDia.cAnterior) {
+                let currentC = dataDia.c || dataDia.cAnterior;
+                let baseName = currentC.nombre.split(' (')[0];
+                let nombreCodi = encodeURIComponent(baseName);
+                let urlFaseBase = `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/Fases/${nombreCodi}_Fase`;
 
-            if (dataDia.cosecha && dataDia.fase !== null && !c.rebrote) {
-                // DÍA COMBINADO (Cosecha + Re-siembra visible)
-                contenido = `
-                    <img src="${getIconUrl(c.nombre)}" title="Cosecha y Re-siembra (Día ${i})" class="cal-img cosecha-anim">
-                    <img src="${urlFaseBase}_1.png" class="cal-img-small" title="Re-siembra" onerror="this.style.display='none'">
-                `;
-            } else if (dataDia.cosecha) {
-                // SOLO COSECHA
-                contenido = `<img src="${getIconUrl(c.nombre)}" title="Cosecha (Día ${i})" class="cal-img cosecha-anim">`;
-            } else if (dataDia.fase === 'Rebrote') {
-                // IMAGEN ESPECIAL DE REBROTE
-                contenido = `<img src="${urlFaseBase}_Rebrote.png" title="Fase de Rebrote" class="cal-img" onerror="this.src='https://via.placeholder.com/32?text=Reb'">`;
-            } else if (dataDia.fase !== null) {
-                // FASES NORMALES
-                contenido = `<img src="${urlFaseBase}_${dataDia.fase}.png" title="Fase ${dataDia.fase}" class="cal-img" onerror="this.src='https://via.placeholder.com/32?text=F${dataDia.fase}'">`;
+                if (dataDia.cosechaAnterior && dataDia.fase !== null) {
+                    let prevName = dataDia.cAnterior.nombre;
+                    contenido = `
+                        <img src="${getIconUrl(prevName)}" title="Cosecha de ${prevName}" class="cal-img cosecha-anim">
+                        <img src="${urlFaseBase}_1.png" class="cal-img-small" title="Plantando ${currentC.nombre}" onerror="this.style.display='none'">
+                    `;
+                } else if (dataDia.cosecha && dataDia.fase !== null && !dataDia.c.rebrote) {
+                    contenido = `
+                        <img src="${getIconUrl(currentC.nombre)}" title="Cosecha y Re-siembra" class="cal-img cosecha-anim">
+                        <img src="${urlFaseBase}_1.png" class="cal-img-small" onerror="this.style.display='none'">
+                    `;
+                } else if (dataDia.cosecha) {
+                    contenido = `<img src="${getIconUrl(currentC.nombre)}" title="Cosecha ${currentC.nombre}" class="cal-img cosecha-anim">`;
+                } else if (dataDia.fase === 'Rebrote') {
+                    contenido = `<img src="${urlFaseBase}_Rebrote.png" title="Rebrote" class="cal-img" onerror="this.src='https://via.placeholder.com/32?text=Reb'">`;
+                } else if (dataDia.fase !== null) {
+                    contenido = `<img src="${urlFaseBase}_${dataDia.fase}.png" title="Fase ${dataDia.fase}" class="cal-img" onerror="this.src='https://via.placeholder.com/32?text=F${dataDia.fase}'">`;
+                }
             }
 
-            // APAGADO AUTOMÁTICO: Si no hay fase activa, el día se ve "vacío/abandonado"
-            if (i > diaSiembra && !dataDia.cosecha && dataDia.fase === null) {
-                claseCelda = 'vacio';
+            if (i > diaSiembra1 && !dataDia.cosecha && dataDia.fase === null && !dataDia.cosechaAnterior) {
+                claseCelda = 'vacio'; 
             }
 
             html += `<div class="cal-celda ${claseCelda}">
@@ -472,94 +589,193 @@
     }
 
     function actualizarTabla() {
-        const ubicacion = ubicacionActiva; 
-        const filtroTemporada = document.getElementById('selectTemporada').value.toLowerCase();
-        const acelerador = document.getElementById('selectAcelerador').value;
-        const agricultor = document.getElementById('checkAgricultor').checked;
-        const labrador = document.getElementById('checkLabrador').checked;
-        const cantidad = parseInt(document.getElementById('inputCantidad').value) || 1;
-        const diaActual = parseInt(document.getElementById('inputDia').value) || 1;
+    const ubicacion = ubicacionActiva; 
+    const filtroTemporada = document.getElementById('selectTemporada').value.toLowerCase();
+    const acelerador = document.getElementById('selectAcelerador').value;
+    const agricultor = document.getElementById('checkAgricultor').checked;
+    const labrador = document.getElementById('checkLabrador').checked;
+    const cantidad = parseInt(document.getElementById('inputCantidad').value) || 1;
+    
+    // CORRECCIÓN BUG: Asegurar que el valor del día sea válido y no bloquee
+    let diaActualInput = document.getElementById('inputDia').value;
+    const diaActual = Math.max(1, Math.min(28, parseInt(diaActualInput) || 1));
+    
+    const cuerpo = document.getElementById('cuerpoTabla');
+    const tituloOro = document.getElementById('tituloOroTotal');
+    
+    let diasDisponibles = (ubicacion === "Granja") ? (28 - diaActual) : (112 - ((["primavera", "verano", "otoño", "invierno"].indexOf(filtroTemporada) * 28) + diaActual));
+    tituloOro.textContent = (ubicacion === "Granja") ? "Oro Total fin de mes" : "Oro Total fin de año";
+
+    let filtrados = data.cultivos.filter(c => {
+        if (ubicacion === "Granja") return c.temporada.some(t => t.toLowerCase() === filtroTemporada);
+        return c.temporada.some(t => t.toLowerCase() === "invernadero");
+    });
+
+    if (!categoriasActivas.includes("Todos")) filtrados = filtrados.filter(c => categoriasActivas.includes(c.tipo));
+
+    let calculados = filtrados.map(c => {
+        const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad, diasDisponibles);
+        return { ...c, ...stats };
+    });
+
+    calculados.sort((a, b) => b.profitTotal - a.profitTotal);
+
+    cuerpo.innerHTML = "";
+    calculados.forEach((c) => {
+        const noDaTiempo = c.cosechas === 0;
+        const idDetalle = `detalles-${c.nombre.replace(/\s+/g, '-')}`;
+        const estaExpandido = cultivosExpandidos.has(c.nombre);
         
-        const cuerpo = document.getElementById('cuerpoTabla');
-        const tituloOro = document.getElementById('tituloOroTotal');
-        
-        let diasDisponibles = 0;
-        if (ubicacion === "Granja") {
-            diasDisponibles = 28 - diaActual; 
-            tituloOro.textContent = "Oro Total a final de mes"; 
-        } else {
-            const mapTemporadas = { "primavera": 0, "verano": 1, "otoño": 2, "invierno": 3 };
-            let indiceTemporada = mapTemporadas[filtroTemporada];
-            let diaDelAño = (indiceTemporada * 28) + diaActual;
-            diasDisponibles = 112 - diaDelAño; 
-            tituloOro.textContent = "Oro Total a final de año";
-        }
-
-        let filtrados = data.cultivos.filter(c => {
-            if (ubicacion === "Granja") {
-                return c.temporada.some(t => t.toLowerCase() === filtroTemporada);
-            } else {
-                return c.temporada.some(t => t.toLowerCase() === "invernadero");
-            }
-        });
-
-        if (!categoriasActivas.includes("Todos")) {
-            filtrados = filtrados.filter(c => categoriasActivas.includes(c.tipo));
-        }
-
-        let calculados = filtrados.map(c => {
-            const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad, diasDisponibles);
-            return { ...c, ...stats };
-        });
-
-        calculados.sort((a, b) => b.profitTotal - a.profitTotal);
-
-        cuerpo.innerHTML = "";
-        calculados.forEach((c) => {
-            const noDaTiempo = c.cosechas === 0;
-            const idDetalle = `detalles-${c.nombre.replace(/\s+/g, '-')}`;
-            
-            const estaExpandido = cultivosExpandidos.has(c.nombre);
-            const displayStyle = estaExpandido ? 'table-row' : 'none';
-
-            const estiloFila = noDaTiempo ? 'opacity: 0.6; background-color: rgba(255,0,0,0.08);' : '';
-            
-            cuerpo.innerHTML += `
-                <tr class="fila-principal" style="${estiloFila}" onclick="toggleDetalles('${idDetalle}', '${c.nombre}')">
-                    <td>
-                        <div class="crop-info">
-                            <img class="crop-icon" src="${getIconUrl(c.nombre)}" alt="${c.nombre}" onerror="this.style.visibility='hidden'">
-                            <strong>${c.nombre}</strong>
+        // Renderizado de la fila
+        cuerpo.innerHTML += `
+            <tr class="fila-principal" style="${noDaTiempo ? 'opacity: 0.6;' : ''}" onclick="toggleDetalles('${idDetalle}', '${c.nombre}')">
+                <td><div class="crop-info"><img class="crop-icon" src="${getIconUrl(c.nombre)}"><strong>${c.nombre}</strong></div></td>
+                <td class="cosecha-count">${noDaTiempo ? '0' : c.cosechas}</td>
+                <td><span class="inversion-badge">$ ${c.inversionTotal.toFixed(0)}</span></td>
+                <td><span class="gpd-badge">$ ${c.gpd}</span></td>
+                <td><span class="gold-badge">$ ${c.oroBrutoTotal.toFixed(0)}</span></td>
+                <td><span class="profit-badge">$ ${c.profitTotal.toFixed(0)}</span></td>
+                <td class="desc">${c.descripcion}</td>
+            </tr>
+            <tr id="${idDetalle}" class="fila-detalles" style="display: ${estaExpandido ? 'table-row' : 'none'};">
+                <td colspan="7">
+                    <div class="contenido-detalles">
+                        <div style="flex: 1.5; min-width: 300px;">
+                            ${generarCalendarioHTML(c, diaActual, estadoReplantes[c.nombre])}
                         </div>
-                    </td>
-                    <td class="cosecha-count">
-                        ${noDaTiempo ? '<span style="color: #d32f2f; font-size: 0.85em;">¡No da tiempo!</span>' : c.cosechas}
-                    </td>
-                    <td><span class="inversion-badge">$ ${c.inversionTotal.toFixed(0)}</span></td>
-                    <td><span class="gpd-badge">$ ${c.gpd}</span></td>
-                    <td><span class="gold-badge">$ ${c.oroBrutoTotal.toFixed(0)}</span></td>
-                    <td><span class="profit-badge" style="${noDaTiempo ? 'background: #ffcdd2; color: #b71c1c;' : ''}">
-                        $ ${c.profitTotal.toFixed(0)}
-                    </span></td>
-                    <td class="desc">${c.descripcion}</td>
-                </tr>
+                        <div style="flex: 1; min-width: 250px; padding: 20px; background: rgba(255,255,255,0.5); border-radius: 10px; border: 1px solid #ddd;">
+                            ${renderDesgloseInversion(c, acelerador)}
+                        </div>
+                    </div>
+                </td>
+            </tr>`;
+    });
+}
+    // --- RENDERIZADOR DEL PANEL DE RECULTIVO (SOPORTA CADENAS) ---
+    function renderPanelReplante(nombreCultivo) {
+        let replantes = estadoReplantes[nombreCultivo] || [];
+        
+        let html = `<strong style="font-size: 1.1em; color: var(--farm-green);">🌱 Secuencia de Cultivos</strong>
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px;">`;
+
+        replantes.forEach((rep, index) => {
+            html += `<div style="border: 1px solid #aaa; padding: 10px; border-radius: 5px; background: #f9f9f9; min-width: 180px;">
+                        <strong>Re-siembra ${index + 1}</strong><br>
+                        <label style="font-size: 0.8em;">Día (1-28):</label> 
+                        <input type="number" min="1" max="28" value="${rep.dia}" 
+                               onchange="cambiarDiaReplante('${nombreCultivo}', ${index}, this.value)" 
+                               style="width: 50px; padding: 4px;"><br>`;
+
+            if (!rep.seleccionado) {
+                let top5 = calcularTop5(rep.dia);
+                html += `<div class="top5-list" style="margin-top: 8px;">`;
                 
-                <tr id="${idDetalle}" class="fila-detalles" style="display: ${displayStyle};">
-                    <td colspan="7">
-                        <div class="contenido-detalles">
-                            ${generarCalendarioHTML(c, diaActual, c.reduccionAplicada)}
-                            
-                            <div style="flex: 1; min-width: 250px; padding-left: 20px;">
-                                <strong style="font-size: 1.1em; color: var(--farm-green);">📦 Panel de Procesamiento:</strong>
-                                <p style="margin-top: 10px; color: #333;">
-                                    Aquí aparecerán las ganancias artesanales.
-                                </p>
-                            </div>
-                        </div>
-                    </td>
-                </tr>`;
+                if (top5.length === 0) {
+                    html += `<span style="color:red; font-size:0.9em;">¡Ya no da tiempo a nada!</span>`;
+                } else {
+                    top5.forEach(tc => {
+                        html += `
+                        <div class="top5-card" onclick="seleccionarReplante('${nombreCultivo}', ${index}, '${tc.nombre}')" style="padding: 4px; font-size: 0.9em; gap: 5px;">
+                            <img src="${getIconUrl(tc.nombre)}" style="width: 20px;">
+                            <strong>${tc.nombre}</strong>
+                        </div>`;
+                    });
+                }
+                html += `</div>`;
+                html += `<button onclick="eliminarReplante('${nombreCultivo}', ${index})" style="margin-top:10px; color:red; background:none; border:none; cursor:pointer; font-size:0.85em;">❌ Cancelar</button>`;
+            } else {
+                let tc = data.cultivos.find(x => x.nombre === rep.seleccionado);
+                html += `
+                    <div style="margin-top:10px; padding: 6px; background: #e8f5e9; border: 1px solid #4caf50; border-radius: 5px; font-size: 0.9em;">
+                        <img src="${getIconUrl(tc.nombre)}" style="width:20px; vertical-align:middle;"> <strong>${tc.nombre}</strong>
+                    </div>
+                    <button onclick="eliminarReplante('${nombreCultivo}', ${index})" style="margin-top:10px; color:red; background:none; border:none; cursor:pointer; font-size:0.85em;">❌ Eliminar</button>
+                `;
+            }
+            html += `</div>`;
         });
+
+        // Botón para añadir la primera plantación extra o encadenar más
+        let canAdd = replantes.length === 0 || replantes[replantes.length - 1].seleccionado;
+        if (canAdd) {
+            html += `
+            <div style="display: flex; align-items: center; padding: 10px;">
+                <button class="btn-accion" onclick="activarReplante('${nombreCultivo}')" style="margin: 0;">+ Añadir recultivo</button>
+            </div>`;
+        }
+
+        html += `</div>`;
+        return html;
     }
+
+    function getSeedIconUrl(nombre) {
+    // Esto asume que tus semillas se llaman "Nombre_Seed.png" o similar en tu repo
+    let baseName = nombre.split(' (')[0];
+    return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${encodeURIComponent(baseName)}_Seeds.png`;
+    }
+
+    function getFertilizerIconUrl(valor) {
+        const ferts = {
+            "0.10": "Basic_Speed-Gro",
+            "0.25": "Deluxe_Speed-Gro",
+            "0.35": "Hyper_Speed-Gro"
+        };
+        return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${ferts[valor] || 'Fertilizer'}.png`;
+    }
+
+    function renderDesgloseInversion(c, acelerador) {
+    const tieneFertilizante = acelerador !== "0";
+    const esReplantado = estadoReplantes[c.nombre] && estadoReplantes[c.nombre].length > 0;
+    
+    let html = `
+        <h3 style="margin-top:0; color:var(--farm-green); border-bottom: 2px solid #ddd;">💰 Análisis de Inversión</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${getSeedIconUrl(c.nombre)}" style="width:24px; image-rendering:pixelated;" onerror="this.src='https://via.placeholder.com/24?text=S'">
+                    <span>Semillas x${document.getElementById('inputCantidad').value}</span>
+                </div>
+                <strong>-$${c.inversionTotal - (tieneFertilizante ? (acelerador === "0.10" ? 100 : 150) * parseInt(document.getElementById('inputCantidad').value) : 0)}</strong>
+            </div>`;
+
+    if (tieneFertilizante) {
+        html += `
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${getFertilizerIconUrl(acelerador)}" style="width:24px; image-rendering:pixelated;" onerror="this.src='https://via.placeholder.com/24?text=F'">
+                    <span>Fertilizante</span>
+                </div>
+                <strong>-$${(acelerador === "0.10" ? 100 : 150) * parseInt(document.getElementById('inputCantidad').value)}</strong>
+            </div>`;
+    }
+
+    html += `
+            <div style="margin-top: 10px; padding: 10px; background: #fff; border-radius: 5px; border-left: 4px solid var(--accent-gold);">
+                <div style="display: flex; justify-content: space-between; font-size: 1.1em;">
+                    <span>Oro Total (Venta):</span>
+                    <span style="color: #5d4037; font-weight: bold;">$${c.oroBrutoTotal.toFixed(0)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 1.2em; margin-top: 5px;">
+                    <span><strong>Profit Neto:</strong></span>
+                    <span style="color: #1b5e20; font-weight: bold;">$${c.profitTotal.toFixed(0)}</span>
+                </div>
+            </div>`;
+
+    if (esReplantado) {
+        html += `
+            <div style="margin-top: 10px; font-size: 0.85em; background: #e3f2fd; padding: 8px; border-radius: 5px;">
+                <strong>ℹ️ Nota de Replantación:</strong> Los cálculos de arriba incluyen el coste de re-comprar semillas para cada ciclo de cosecha detectado en el calendario.
+            </div>`;
+    }
+
+    html += `</div>
+             <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+                ${renderPanelReplante(c.nombre)}
+             </div>`;
+             
+    return html;
+}
 
     actualizarTabla();
 </script>
