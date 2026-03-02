@@ -552,41 +552,82 @@
         return html;
     }
 
-    function calcularStats(c, bonoAcelerador, tieneAgricultor, tieneLabrador, cantidad, diasDisponibles) {
-        let bonoTotal = parseFloat(bonoAcelerador) + (tieneAgricultor ? 0.10 : 0);
-        let reduccionDias = Math.ceil(c.dias_crecimiento * bonoTotal);
-        let diasCrecimientoEfectivo = Math.max(1, c.dias_crecimiento - reduccionDias);
-        
-        let precioVentaEfectivo = Math.floor(c.precio_venta * (tieneLabrador ? 1.1 : 1));
-        let costoFertilizante = (bonoAcelerador === "0.10") ? 100 : ((bonoAcelerador === "0.25") ? 150 : 0);
+    function calcularStats(c, bonoAcelerador, tieneAgricultor, tieneLabrador, cantidad, diasDisponibles, replantes = []) {
+    let bonoTotal = parseFloat(bonoAcelerador) + (tieneAgricultor ? 0.10 : 0);
+    let reduccionDias = Math.ceil(c.dias_crecimiento * bonoTotal);
+    let diasCrecimientoEfectivo = Math.max(1, c.dias_crecimiento - reduccionDias);
+    let precioVentaEfectivo = Math.floor(c.precio_venta * (tieneLabrador ? 1.1 : 1));
+    let costoFertilizante = (bonoAcelerador === "0.10") ? 100 : ((bonoAcelerador === "0.25") ? 150 : 0);
 
-        let maxCosechas = 0; let oroBrutoPorPlanta = 0; let inversionPorPlanta = 0; let diasPlantado = 0;
-
-        if (c.rebrote) {
-            if (diasDisponibles >= diasCrecimientoEfectivo) {
-                maxCosechas = 1 + Math.floor((diasDisponibles - diasCrecimientoEfectivo) / c.dias_rebrote);
-                diasPlantado = diasCrecimientoEfectivo + ((maxCosechas - 1) * c.dias_rebrote);
-            }
-            oroBrutoPorPlanta = maxCosechas * precioVentaEfectivo * (c.multiplicador || 1);
-            inversionPorPlanta = (c.precio_semilla || 0) + costoFertilizante;
-        } else {
-            maxCosechas = Math.floor(diasDisponibles / diasCrecimientoEfectivo);
-            diasPlantado = maxCosechas * diasCrecimientoEfectivo;
-            oroBrutoPorPlanta = maxCosechas * precioVentaEfectivo * (c.multiplicador || 1);
-            inversionPorPlanta = ((c.precio_semilla || 0) * maxCosechas) + costoFertilizante;
-        }
-
-        let profitPlanta = maxCosechas > 0 ? (oroBrutoPorPlanta - inversionPorPlanta) : ((c.precio_semilla || 0) * -1);
-        
-        return {
-            cosechas: maxCosechas,
-            gpd: maxCosechas > 0 ? (profitPlanta / (diasPlantado || 1)).toFixed(2) : "0.00",
-            oroBrutoTotal: oroBrutoPorPlanta * cantidad,
-            profitTotal: profitPlanta * cantidad,
-            inversionTotal: (maxCosechas > 0 ? inversionPorPlanta : (c.precio_semilla || 0)) * cantidad,
-            reduccionAplicada: reduccionDias
-        };
+    // --- DETERMINAR LÍMITE DE TIEMPO PARA LA PLANTA PRINCIPAL ---
+    let diasParaPrincipal = diasDisponibles;
+    if (replantes && replantes.length > 0) {
+        // Ordenamos replantes por día y buscamos el primero
+        let primerReplante = [...replantes].sort((a, b) => a.dia - b.dia)[0];
+        let diaActualInput = parseInt(document.getElementById('inputDia').value) || 1;
+        // La principal solo tiene desde su día de siembra hasta el día que llega el relevo
+        diasParaPrincipal = Math.max(0, parseInt(primerReplante.dia) - diaActualInput);
     }
+
+    let maxCosechasPrincipal = 0;
+    let inversionSemillasPrincipal = 0;
+    let oroBrutoPrincipal = 0;
+
+    // --- CÁLCULO PLANTA PRINCIPAL (LIMITADA) ---
+    if (diasParaPrincipal >= diasCrecimientoEfectivo) {
+        if (c.rebrote) {
+            maxCosechasPrincipal = 1 + Math.floor((diasParaPrincipal - diasCrecimientoEfectivo) / c.dias_rebrote);
+            inversionSemillasPrincipal = (c.precio_semilla || 0);
+        } else {
+            maxCosechasPrincipal = Math.floor(diasParaPrincipal / diasCrecimientoEfectivo);
+            inversionSemillasPrincipal = (c.precio_semilla || 0) * maxCosechasPrincipal;
+        }
+    }
+    oroBrutoPrincipal = maxCosechasPrincipal * precioVentaEfectivo * (c.multiplicador || 1);
+
+    // --- CÁLCULO DE REPLANTES ---
+    let inversionReplantes = 0;
+    let oroBrutoReplantes = 0;
+    let totalCosechasReplantes = 0;
+
+    if (replantes && replantes.length > 0) {
+        replantes.forEach((rep, index) => {
+            if (rep.seleccionado) {
+                const cSec = data.cultivos.find(x => x.nombre === rep.seleccionado);
+                const diaReplante = parseInt(rep.dia);
+                
+                // ¿Hasta cuándo dura este replante? Hasta el siguiente replante o hasta fin de mes
+                let siguienteDia = (ubicacionActiva === "Granja") ? 28 : 112;
+                if (replantes[index + 1]) siguienteDia = parseInt(replantes[index + 1].dia);
+                
+                let diasParaEsteReplante = siguienteDia - diaReplante;
+                
+                // Llamada recursiva pero vacía de replantes para no entrar en bucle infinito
+                const statsSec = calcularStats(cSec, bonoAcelerador, tieneAgricultor, tieneLabrador, 1, diasParaEsteReplante, []);
+                
+                inversionReplantes += statsSec.inversionTotal; 
+                oroBrutoReplantes += statsSec.oroBrutoTotal;
+                totalCosechasReplantes += statsSec.cosechas;
+            }
+        });
+    }
+
+    let inversionTotal = (inversionSemillasPrincipal * cantidad) + (costoFertilizante * cantidad) + (inversionReplantes * cantidad);
+    let oroBrutoTotal = (oroBrutoPrincipal * cantidad) + (oroBrutoReplantes * cantidad);
+
+    return {
+        cosechas: maxCosechasPrincipal + totalCosechasReplantes,
+        gpd: ((oroBrutoTotal - inversionTotal) / (diasDisponibles || 1) / cantidad).toFixed(2),
+        oroBrutoTotal: oroBrutoTotal,
+        inversionTotal: inversionTotal,
+        profitTotal: oroBrutoTotal - inversionTotal,
+        reduccionAplicada: reduccionDias,
+        // Guardamos esto para el desglose visual
+        cantSemillasPrincipal: maxCosechasPrincipal 
+    };
+}
+
+    
 
     function actualizarTabla() {
     const ubicacion = ubicacionActiva; 
@@ -613,8 +654,10 @@
 
     if (!categoriasActivas.includes("Todos")) filtrados = filtrados.filter(c => categoriasActivas.includes(c.tipo));
 
+        // Busca esta parte en tu actualizarTabla y reemplázala:
     let calculados = filtrados.map(c => {
-        const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad, diasDisponibles);
+        // Pasamos el estado de replantes de esta planta específica
+        const stats = calcularStats(c, acelerador, agricultor, labrador, cantidad, diasDisponibles, estadoReplantes[c.nombre]);
         return { ...c, ...stats };
     });
 
@@ -711,7 +754,7 @@
     function getSeedIconUrl(nombre) {
     // Esto asume que tus semillas se llaman "Nombre_Seed.png" o similar en tu repo
     let baseName = nombre.split(' (')[0];
-    return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${encodeURIComponent(baseName)}_Seeds.png`;
+    return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/Fases/${encodeURIComponent(baseName)}_Seeds.png`;
     }
 
     function getFertilizerIconUrl(valor) {
@@ -720,57 +763,87 @@
             "0.25": "Deluxe_Speed-Gro",
             "0.35": "Hyper_Speed-Gro"
         };
-        return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/${ferts[valor] || 'Fertilizer'}.png`;
+        return `https://raw.githubusercontent.com/Grandunks/Stardew/main/Imagenes/Fases/${ferts[valor] || 'Fertilizer'}.png`;
     }
 
     function renderDesgloseInversion(c, acelerador) {
     const tieneFertilizante = acelerador !== "0";
-    const esReplantado = estadoReplantes[c.nombre] && estadoReplantes[c.nombre].length > 0;
+    const cantidadBase = parseInt(document.getElementById('inputCantidad').value) || 1;
+    const replantes = estadoReplantes[c.nombre] || [];
     
-    let html = `
-        <h3 style="margin-top:0; color:var(--farm-green); border-bottom: 2px solid #ddd;">💰 Análisis de Inversión</h3>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+    // Contabilizar semillas
+    let listaSemillas = [];
+    
+    // 1. Semilla Principal
+    // Si no es de rebrote, se compra una por cada cosecha que quepa. Si es de rebrote, solo 1.
+   // Dentro de renderDesgloseInversion, cambia la parte de la semilla principal por esto:
+    let numSemillasPrincipal = c.rebrote ? (c.cantSemillasPrincipal > 0 ? 1 : 0) : c.cantSemillasPrincipal;
+    listaSemillas.push({ 
+        nombre: c.nombre, 
+        cant: numSemillasPrincipal * cantidadBase, 
+        total: (c.precio_semilla * numSemillasPrincipal * cantidadBase) 
+    });
+
+    // 2. Semillas de Replantes
+    replantes.forEach(rep => {
+        if (rep.seleccionado) {
+            const cSec = data.cultivos.find(x => x.nombre === rep.seleccionado);
+            // Calculamos cuántas veces se siembra este replante (si no es rebrote)
+            const diaRep = parseInt(rep.dia);
+            const diasLibres = (ubicacionActiva === "Granja") ? (28 - diaRep) : (112 - diaRep);
+            const sSec = calcularStats(cSec, acelerador, false, false, 1, diasLibres);
             
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="${getSeedIconUrl(c.nombre)}" style="width:24px; image-rendering:pixelated;" onerror="this.src='https://via.placeholder.com/24?text=S'">
-                    <span>Semillas x${document.getElementById('inputCantidad').value}</span>
+            let numSemillasSec = cSec.rebrote ? 1 : sSec.cosechas;
+            listaSemillas.push({ nombre: cSec.nombre, cant: numSemillasSec * cantidadBase, total: (cSec.precio_semilla * numSemillasSec * cantidadBase) });
+        }
+    });
+
+    let html = `
+        <h3 style="margin-top:0; color:var(--farm-green); border-bottom: 2px solid #ddd; padding-bottom:5px;">💰 Carrito de Compra</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">`;
+
+    listaSemillas.forEach(item => {
+        html += `
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95em;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <img src="${getSeedIconUrl(item.nombre)}" style="width:20px; image-rendering:pixelated;" onerror="this.src='https://via.placeholder.com/20?text=S'">
+                    <span>${item.nombre} <small>(x${item.cant})</small></span>
                 </div>
-                <strong>-$${c.inversionTotal - (tieneFertilizante ? (acelerador === "0.10" ? 100 : 150) * parseInt(document.getElementById('inputCantidad').value) : 0)}</strong>
+                <span style="color:#b71c1c; font-weight:bold;">-$${item.total}</span>
             </div>`;
+    });
 
     if (tieneFertilizante) {
+        const costoFert = (acelerador === "0.10" ? 100 : (acelerador === "0.25" ? 150 : 0)) * cantidadBase;
         html += `
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="${getFertilizerIconUrl(acelerador)}" style="width:24px; image-rendering:pixelated;" onerror="this.src='https://via.placeholder.com/24?text=F'">
-                    <span>Fertilizante</span>
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.95em; border-top: 1px dashed #ccc; pt: 5px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <img src="${getFertilizerIconUrl(acelerador)}" style="width:20px; image-rendering:pixelated;" onerror="this.src='https://via.placeholder.com/20?text=F'">
+                    <span>Fertilizante <small>(x${cantidadBase})</small></span>
                 </div>
-                <strong>-$${(acelerador === "0.10" ? 100 : 150) * parseInt(document.getElementById('inputCantidad').value)}</strong>
+                <span style="color:#b71c1c; font-weight:bold;">-$${costoFert}</span>
             </div>`;
     }
 
     html += `
-            <div style="margin-top: 10px; padding: 10px; background: #fff; border-radius: 5px; border-left: 4px solid var(--accent-gold);">
-                <div style="display: flex; justify-content: space-between; font-size: 1.1em;">
-                    <span>Oro Total (Venta):</span>
-                    <span style="color: #5d4037; font-weight: bold;">$${c.oroBrutoTotal.toFixed(0)}</span>
+            <div style="margin-top: 10px; padding: 12px; background: #fff; border-radius: 8px; border: 2px solid var(--accent-gold); box-shadow: inset 0 0 5px rgba(0,0,0,0.05);">
+                <div style="display: flex; justify-content: space-between; font-size: 1em; color: #666;">
+                    <span>Inversión Total:</span>
+                    <span style="font-weight: bold;">$${c.inversionTotal.toFixed(0)}</span>
                 </div>
-                <div style="display: flex; justify-content: space-between; font-size: 1.2em; margin-top: 5px;">
+                <div style="display: flex; justify-content: space-between; font-size: 1.1em; margin-top: 5px; color: #5d4037;">
+                    <span>Venta Total:</span>
+                    <span style="font-weight: bold;">$${c.oroBrutoTotal.toFixed(0)}</span>
+                </div>
+                <hr style="margin: 8px 0; border: 0; border-top: 1px solid #eee;">
+                <div style="display: flex; justify-content: space-between; font-size: 1.3em;">
                     <span><strong>Profit Neto:</strong></span>
                     <span style="color: #1b5e20; font-weight: bold;">$${c.profitTotal.toFixed(0)}</span>
                 </div>
             </div>`;
 
-    if (esReplantado) {
-        html += `
-            <div style="margin-top: 10px; font-size: 0.85em; background: #e3f2fd; padding: 8px; border-radius: 5px;">
-                <strong>ℹ️ Nota de Replantación:</strong> Los cálculos de arriba incluyen el coste de re-comprar semillas para cada ciclo de cosecha detectado en el calendario.
-            </div>`;
-    }
-
     html += `</div>
-             <div style="margin-top: 20px; border-top: 1px solid #ddd; padding-top: 10px;">
+             <div style="margin-top: 15px; border-top: 1px solid #ddd; padding-top: 10px;">
                 ${renderPanelReplante(c.nombre)}
              </div>`;
              
